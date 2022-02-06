@@ -1,0 +1,20 @@
+{
+	"folders": [
+		{
+			"path": "..\\..\\..\\..\\..\\.."
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\Phoenix-Examples-Languages-master"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\2021Lakerbots"
+		},
+		{
+			"path": "..\\..\\..\\..\\..\\..\\..\\MK3-Swerve-main"
+		}
+	],
+	"settings": {
+		"java.configuration.updateBuildConfiguration": "automatic",
+		"java.server.launchMode": "Standard"
+	}
+}

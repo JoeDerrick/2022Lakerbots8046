@@ -1,0 +1,37 @@
+1/22/21
+Note the Workspace has been set up for you to have 2022 code, CTRE example and our 2020/21 code in it, see projects in the workspace on the left
+Things to do in 2022 code
+1) Rename Launch Ball and/or Stop Launcher to have a consistent naming system. eg SpinLauncher StopLauncher
+2) add StopLauncher to Robot Container as a button
+Look in the 2020 Lakerbots code for how to use a solenoid to make methods to extend and retract the hoodAngle cylinder
+3) Make the methods in the launcher subsytem to extend and retract the hoodAngle
+
+read https://docs.wpilib.org/en/stable/docs/software/hardware-apis/pneumatics/pneumatics.html#generating-and-storing-pressure
+4) and then add compressor.enableDigital(); in the pneumatics subsystem
+
+Check out Pheonix Example Languages - Java Talon FX (Falcon 500) Velocity Closed Loop Example
+src\main\java\robot\robot
+copy all of it into our program and then fix it when it breaks. eg , put each section in its own place (new methods vs constructors etc. constants class)
+
+Work with electrical to make sure talons CAN ID's are correct and firmware is updated.
+
+1/26/22
+make launcher tune the default command of the subsystemx1`
+
+copy the launcher tune for the climbers except make it climber tune
+
+Review changes to how robotcontainer commands are linked to buttons
+
+
+Start on Swerve Drive
+
+Make sure we do not have any conflicting CAN ids with swerve drivetrain.
+Make command for driving (default command)
+
+2/5
+Arrange commands into packages
+Try and add other joystick
+Add new subystem (Hopper) with one TalonSRX, take intakefollow and put it into hopper
+Add digital input to detect ball (look in 2020 code(elevator subsytem))
+
+Create tune hopper command
