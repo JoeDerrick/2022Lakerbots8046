@@ -42,7 +42,7 @@ int _loops = 0;
 public climber() {
         // ID=CONSTRUCTORS
 climberLeft = new WPI_TalonFX(9);
-climberRight = new WPI_TalonFX(10);
+climberRight = new WPI_TalonFX(17);
  
  
 

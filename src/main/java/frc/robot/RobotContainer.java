@@ -5,6 +5,7 @@ import frc.robot.commands.Autonomous.AutonomousCommand;
 import frc.robot.commands.ClimberCommands.Climb;
 import frc.robot.commands.ClimberCommands.ReleaseArm;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
+import frc.robot.commands.HopperCommands.HopperTune;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.IntakeStop;
 import frc.robot.commands.IntakeCommands.LowerIntake;
@@ -17,7 +18,7 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
+import frc.robot.commands.HopperCommands.*;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -49,8 +50,8 @@ public class RobotContainer {
     public final launcher m_launcher = new launcher();
     public final intake m_intake = new intake();
     public final swerveDrivetrain m_swerveDrivetrain = new swerveDrivetrain();
-    public final hopperA m_hopper = new hopperA();
-
+    public final hopper m_hopper = new hopper();
+    
   //public final swerveModules m_swerveModules = new swerveModules();
 // Joysticks
 private final XboxController xboxController0 = new XboxController(1);
@@ -92,7 +93,8 @@ private final XboxController xboxController0 = new XboxController(1);
  //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
  
  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
-   
+  
+ m_hopper.setDefaultCommand(new HopperTune(m_hopper));
 
     // Configure autonomous sendable chooser
     

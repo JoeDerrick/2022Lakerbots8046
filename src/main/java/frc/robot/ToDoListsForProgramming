@@ -34,4 +34,23 @@ Try and add other joystick
 Add new subystem (Hopper) with one TalonSRX, take intakefollow and put it into hopper
 Add digital input to detect ball (look in 2020 code(elevator subsytem))
 
+add second hopper motor to hopper subsystem A,B
 Create tune hopper command
+add tunehopper to robot container as default command of subsytem
+ -done
+in hopper subsystem for each hopperA,B
+
+create hopper set position method-done
+
+create hopper reset encoder method - done
+
+create hopper set speed method-done
+
+create hopper set power method - done
+
+creare hopper get position method - assumed done
+
+do this - done
+https://wpilib.org/blog/2022-update-release-2-of-wpilib
+
+
