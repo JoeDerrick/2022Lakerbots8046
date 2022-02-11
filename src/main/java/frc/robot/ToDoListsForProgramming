@@ -53,4 +53,17 @@ creare hopper get position method - assumed done
 do this - done
 https://wpilib.org/blog/2022-update-release-2-of-wpilib
 
+to do list for 2/11/22
 
+make commands for all of the hoppper methods. use launcher commands for reference - done
+
+complete Lower intake command  by calling the method in the intake subsytem and copy/rename it to create lift intake
+
+ask electrical to wire in the digital input
+
+reimage the RoBoRIO later
+
+double check CAN talon ID's 
+
+
+nice :)
