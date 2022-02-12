@@ -55,7 +55,7 @@ public class launcher extends SubsystemBase {
 	*/
 	public launcher() {
 		// BEGIN ID=CONSTRUCTORS
-		launcherLead = new WPI_TalonFX(15);
+		launcherLead = new WPI_TalonFX(21);
 		launcherFollow = new WPI_TalonFX(14);
 
 		hoodAngle = new DoubleSolenoid(PneumaticsModuleType.CTREPCM, 0, 1);
