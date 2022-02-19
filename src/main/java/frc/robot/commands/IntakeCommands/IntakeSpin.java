@@ -28,7 +28,7 @@ public class IntakeSpin extends CommandBase {
     public IntakeSpin(intake subsystem, double speed) {
 
 
-        double value = speed;
+        
         m_intake = subsystem;
         addRequirements(m_intake);
 

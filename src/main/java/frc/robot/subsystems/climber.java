@@ -13,17 +13,17 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.*;
 import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.robot.Utils.InstrumFX;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import frc.robot.subsystems.climber;
+import com.ctre.phoenix.motorcontrol.ControlMode;
 public class climber extends SubsystemBase {
     //  ID=CONSTANTS
 
@@ -38,6 +38,10 @@ Joystick _joy = new Joystick(0);
 StringBuilder _sb = new StringBuilder();
 
 int _loops = 0;
+
+int _smoothing = 0;
+
+int _pov = -1;
 
 public climber() {
         // ID=CONSTRUCTORS
@@ -94,62 +98,180 @@ climberLeft.setInverted(true);
         // This method will be called once per scheduler run when in simulation
 
     }
-    public void launcherTune() {
-		/* Get gamepad axis */
-		double leftYstick = -1 * _joy.getY();
+    public void climberRightTune() {
+		/* Get gamepad axis - forward stick is positive */
+		double leftYstick = -1.0 * _joy.getY(); /* left-side Y for Xbox360Gamepad */
+		double rghtYstick = -1.0 * _joy.getRawAxis(5); /* right-side Y for Xbox360Gamepad */
+		if (Math.abs(leftYstick) < 0.10) { leftYstick = 0; } /* deadband 10% */
+		if (Math.abs(rghtYstick) < 0.10) { rghtYstick = 0; } /* deadband 10% */
 
-		/* Get Talon/Victor's current output percentage */
+		/* Get current Talon FX motor output */
 		double motorOutput = climberRight.getMotorOutputPercent();
 
 		/* Prepare line to print */
-		_sb.append("\tout:");
-		/* Cast to int to remove decimal places */
-		_sb.append((int) (motorOutput * 100));
-		_sb.append("%"); // Percent
-
-		_sb.append("\tspd:");
+		_sb.append("\tOut%:");
+		_sb.append(motorOutput);
+		_sb.append("\tVel:");
 		_sb.append(climberRight.getSelectedSensorVelocity(Constants.kPIDLoopIdx));
-		_sb.append("u"); // Native units
 
 		/**
-		 * When button 1 is held, start and run Velocity Closed loop.
-		 * Velocity Closed Loop is controlled by joystick position x500 RPM, [-500, 500]
-		 * RPM
+		 * Perform Motion Magic when Button 1 is held, else run Percent Output, which can
+		 * be used to confirm hardware setup.
 		 */
 		if (_joy.getRawButton(1)) {
-			/* Velocity Closed Loop */
+			/* Motion Magic */
 
-			/**
-			 * Convert 2000 RPM to units / 100ms.
-			 * 2048 Units/Rev * 2000 RPM / 600 100ms/min in either direction:
-			 * velocity setpoint is in units/100ms
-			 */
-			double targetVelocity_UnitsPer100ms = leftYstick * 2000.0 * 2048.0 / 600.0;
-			/* 2000 RPM in either direction */
-			climberRight.set(TalonFXControlMode.Velocity, targetVelocity_UnitsPer100ms);
+			/* 2048 ticks/rev * 10 Rotations in either direction */
+			double targetPos = rghtYstick * 2048 * 10.0;
+			climberRight.set(TalonFXControlMode.MotionMagic, targetPos);
 
-			/* Append more signals to print when in speed mode. */
+			/* Append more signals to print when in speed mode */
 			_sb.append("\terr:");
 			_sb.append(climberRight.getClosedLoopError(Constants.kPIDLoopIdx));
 			_sb.append("\ttrg:");
-			_sb.append(targetVelocity_UnitsPer100ms);
+			_sb.append(targetPos);
 		} else {
 			/* Percent Output */
 
 			climberRight.set(TalonFXControlMode.PercentOutput, leftYstick);
 		}
-
-		/* Print built string every 10 loops */
-		if (++_loops >= 10) {
-			_loops = 0;
-			System.out.println(_sb.toString());
+		if (_joy.getRawButton(2)) {
+			/* Zero sensor positions */
+			climberRight.setSelectedSensorPosition(0);
 		}
-		/* Reset built string */
-		_sb.setLength(0);
-	}
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+		int pov = _joy.getPOV();
+		if (_pov == pov) {
+			/* no change */
+		} else if (_pov == 180) { // D-Pad down
+			/* Decrease smoothing */
+			_smoothing--;
+			if (_smoothing < 0)
+				_smoothing = 0;
+			climberRight.configMotionSCurveStrength(_smoothing);
+
+			System.out.println("Smoothing is set to: " + _smoothing);
+		} else if (_pov == 0) { // D-Pad up
+			/* Increase smoothing */
+			_smoothing++;
+			if (_smoothing > 8)
+				_smoothing = 8;
+			climberRight.configMotionSCurveStrength(_smoothing);
+
+			System.out.println("Smoothing is set to: " + _smoothing);
+		}
+		_pov = pov; /* save the pov value for next time */
+
+		/* Instrumentation */
+		InstrumFX.Process(climberRight, _sb);
+	}
+	public void climberLeftTune() {
+		/* Get gamepad axis - forward stick is positive */
+		double leftYstick = -1.0 * _joy.getY(); /* left-side Y for Xbox360Gamepad */
+		double rghtYstick = -1.0 * _joy.getRawAxis(5); /* right-side Y for Xbox360Gamepad */
+		if (Math.abs(leftYstick) < 0.10) { leftYstick = 0; } /* deadband 10% */
+		if (Math.abs(rghtYstick) < 0.10) { rghtYstick = 0; } /* deadband 10% */
+
+		/* Get current Talon FX motor output */
+		double motorOutput = climberLeft.getMotorOutputPercent();
+
+		/* Prepare line to print */
+		_sb.append("\tOut%:");
+		_sb.append(motorOutput);
+		_sb.append("\tVel:");
+		_sb.append(climberLeft.getSelectedSensorVelocity(Constants.kPIDLoopIdx));
+
+		/**
+		 * Perform Motion Magic when Button 1 is held, else run Percent Output, which can
+		 * be used to confirm hardware setup.
+		 */
+		if (_joy.getRawButton(1)) {
+			/* Motion Magic */
+
+			/* 2048 ticks/rev * 10 Rotations in either direction */
+			double targetPos = rghtYstick * 2048 * 10.0;
+			climberLeft.set(TalonFXControlMode.MotionMagic, targetPos);
+
+			/* Append more signals to print when in speed mode */
+			_sb.append("\terr:");
+			_sb.append(climberLeft.getClosedLoopError(Constants.kPIDLoopIdx));
+			_sb.append("\ttrg:");
+			_sb.append(targetPos);
+		} else {
+			/* Percent Output */
+
+			climberLeft.set(TalonFXControlMode.PercentOutput, leftYstick);
+		}
+		if (_joy.getRawButton(2)) {
+			/* Zero sensor positions */
+			climberLeft.setSelectedSensorPosition(0);
+		}
+
+		int pov = _joy.getPOV();
+		if (_pov == pov) {
+			/* no change */
+		} else if (_pov == 180) { // D-Pad down
+			/* Decrease smoothing */
+			_smoothing--;
+			if (_smoothing < 0)
+				_smoothing = 0;
+			climberLeft.configMotionSCurveStrength(_smoothing);
+
+			System.out.println("Smoothing is set to: " + _smoothing);
+		} else if (_pov == 0) { // D-Pad up
+			/* Increase smoothing */
+			_smoothing++;
+			if (_smoothing > 8)
+				_smoothing = 8;
+			climberLeft.configMotionSCurveStrength(_smoothing);
+
+			System.out.println("Smoothing is set to: " + _smoothing);
+		}
+		_pov = pov; /* save the pov value for next time */
+
+		/* Instrumentation */
+		InstrumFX.Process(climberLeft, _sb);
+	}
+	public void hopperASetPos(double value) {
+        climberRight.set(ControlMode.MotionMagic, value); //insert number?
+      }
+
+      public void hopperBSetPos(double value) {
+        climberLeft.set(ControlMode.MotionMagic, value); //insert number?
+      }
+          
+      
+        //Create Method for reseting encoder
+
+      public void resethopperA(){
+        climberRight.setSelectedSensorPosition(0);
+      }
+
+      public void resethopperB(){
+        climberLeft.setSelectedSensorPosition(0);
+      }
+
+      public void hopperASetSpeed(double speed) {
+          climberRight.set(ControlMode.Velocity, speed);    
+      }
+
+      public void hopperBSetSpeed(double speed) { 
+        climberLeft.set(ControlMode.Velocity, speed);
+      }
+      
+      public void hopperASetPower(double power) {
+        climberRight.set(ControlMode.PercentOutput, power);
+      }
+
+      public void hopperBSetPower(double power) {
+        climberLeft.set(ControlMode.PercentOutput, power);
+      }
+      public double hopperAposition(){
+        return climberRight.getSelectedSensorPosition();
+      }
+      public double hopperBposition(){
+        return climberLeft.getSelectedSensorPosition();
+      }
 
 }
 

@@ -12,25 +12,19 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Constants;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.launcher;
-
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Joystick;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
-
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
+import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kForward;
-import static edu.wpi.first.wpilibj.DoubleSolenoid.Value.kReverse;;
+import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;;
 
 /**
  *

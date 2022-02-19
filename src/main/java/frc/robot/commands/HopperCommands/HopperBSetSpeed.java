@@ -1,8 +1,7 @@
 package frc.robot.commands.HopperCommands;
 
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.hopper;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 

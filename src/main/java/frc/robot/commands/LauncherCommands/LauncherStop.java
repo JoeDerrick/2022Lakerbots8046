@@ -4,7 +4,6 @@ package frc.robot.commands.LauncherCommands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.subsystems.launcher;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 /**
@@ -19,7 +18,6 @@ public class LauncherStop extends CommandBase {
     public LauncherStop(launcher subsystem) {
     
         Subsystem launcher = subsystem;
-        double value = 0;
         addRequirements(launcher);
 
        

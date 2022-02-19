@@ -1,36 +1,36 @@
 package frc.robot;
 
 
-import frc.robot.commands.Autonomous.AutonomousCommand;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+//import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
 import frc.robot.commands.ClimberCommands.Climb;
 import frc.robot.commands.ClimberCommands.ReleaseArm;
+import frc.robot.commands.DriveCommands.AutoDrive;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
 import frc.robot.commands.HopperCommands.HopperTune;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.IntakeStop;
 import frc.robot.commands.IntakeCommands.LowerIntake;
+import frc.robot.commands.LauncherCommands.LauncherGo;
+import frc.robot.commands.LauncherCommands.LauncherStop;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.commands.LauncherHoodCommands.HoodRetract;
-import frc.robot.commands.LauncherCommands.LauncherStop;
-import frc.robot.commands.LauncherCommands.LauncherGo;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.HopperCommands.*;
-
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj.XboxController;
-//import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.XboxController.Button;
-import frc.robot.subsystems.*;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import frc.robot.subsystems.climber;
+import frc.robot.subsystems.hopper;
+import frc.robot.subsystems.intake;
+import frc.robot.subsystems.launcher;
+import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.pneumatics;
 import frc.robot.subsystems.swerveDrivetrain;
-
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -51,7 +51,8 @@ public class RobotContainer {
     public final intake m_intake = new intake();
     public final swerveDrivetrain m_swerveDrivetrain = new swerveDrivetrain();
     public final hopper m_hopper = new hopper();
-    
+    public limelight m_limelight = new limelight();
+  
   //public final swerveModules m_swerveModules = new swerveModules();
 // Joysticks
 private final XboxController xboxController0 = new XboxController(1);
@@ -71,7 +72,7 @@ private final XboxController xboxController0 = new XboxController(1);
 
 
     // SmartDashboard Buttons
-    SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
+    SmartDashboard.putData("Autonomous Command", new AutoDrive(m_swerveDrivetrain));
     SmartDashboard.putData("SpinIntake", new IntakeSpin( m_intake, 0.5 ));
     SmartDashboard.putData("LaunchBall", new LauncherGo( m_launcher, 0.5 ));
     SmartDashboard.putData("Climb", new Climb( m_climber ));
@@ -99,7 +100,7 @@ private final XboxController xboxController0 = new XboxController(1);
     // Configure autonomous sendable chooser
     
 
-    m_chooser.setDefaultOption("Autonomous Command", new AutonomousCommand());
+    m_chooser.setDefaultOption("Autonomous Command", new AutoDrive(m_swerveDrivetrain));
 
      
 
