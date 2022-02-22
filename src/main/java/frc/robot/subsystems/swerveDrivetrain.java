@@ -56,11 +56,10 @@ public class swerveDrivetrain extends SubsystemBase {
   
   
   //public static AHRS gyro = new AHRS(SPI.Port.kMXP);
-  //public static PigeonIMU gyro = new PigeonIMU(10);
-  PigeonIMU _pidgey;
- 
-  public static TalonSRX _pigeonTalon = new TalonSRX(10);
-
+  
+  //PigeonIMU _pidgey;
+  //public static TalonSRX _pigeonTalon = new TalonSRX(10);
+  public static PigeonIMU _PigeonIMU = new PigeonIMU(10);
 
   
 
@@ -102,26 +101,26 @@ public class swerveDrivetrain extends SubsystemBase {
    // gyro.reset(); //not sure if I commented this out or not
     
     /* create the pigeon */
-    _pidgey = new PigeonIMU(_pigeonTalon);
+    
     resetAllDriveEncoders();
    
   }
 
   public double getAngle() {
     double[] ypr = new double[3];//here is an array  source pigeonAPI:  https://docs.ctre-phoenix.com/en/stable/ch11_BringUpPigeon.html#pigeon-api
-    _pidgey.getYawPitchRoll(ypr); // put the data from the pidgey into this array
+    _PigeonIMU.getYawPitchRoll(ypr); // put the data from the pidgey into this array
     return ypr[0];// look at the first column in the array
   }
 
   public double getAngularRate(){
     double[] xyz = new double[3];
-    _pidgey.getRawGyro(xyz);
+    _PigeonIMU.getRawGyro(xyz);
     return xyz[2];
   }
 
   public void resetYaw(){
-    _pidgey.setYaw(0,50);
-    _pidgey.setAccumZAngle(0,50);//50 is ktimeouts
+    _PigeonIMU.setYaw(0,50);
+    _PigeonIMU.setAccumZAngle(0,50);//50 is ktimeouts
   }
 
   /**
