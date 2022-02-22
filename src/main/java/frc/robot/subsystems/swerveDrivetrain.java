@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -57,6 +58,7 @@ public class swerveDrivetrain extends SubsystemBase {
   //public static AHRS gyro = new AHRS(SPI.Port.kMXP);
   //public static PigeonIMU gyro = new PigeonIMU(10);
   PigeonIMU _pidgey;
+ 
   public static TalonSRX _pigeonTalon = new TalonSRX(10);
 
 
@@ -98,7 +100,7 @@ public class swerveDrivetrain extends SubsystemBase {
 
   public swerveDrivetrain() {
    // gyro.reset(); //not sure if I commented this out or not
-
+    
     /* create the pigeon */
     _pidgey = new PigeonIMU(_pigeonTalon);
     resetAllDriveEncoders();

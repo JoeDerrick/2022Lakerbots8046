@@ -66,5 +66,8 @@ reimage the RoBoRIO later
 double check CAN talon ID's - done
 
 
-
 nice :)
+
+do controller stuff
+add limelight rotate to target to automounous
+turn lights on at begginning of automounnous and turn lights off at end of automounous
