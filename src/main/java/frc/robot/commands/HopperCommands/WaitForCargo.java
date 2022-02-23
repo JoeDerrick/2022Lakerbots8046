@@ -1,3 +1,7 @@
+/*
+init-get hopper pos
+exe- give number
+*/
 package frc.robot.commands.HopperCommands;
 
 import frc.robot.subsystems.hopper;
@@ -5,24 +9,24 @@ import frc.robot.subsystems.hopper;
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class HopperASetPos extends CommandBase{
+public class WaitForCargo extends CommandBase{
     private  hopper hopper;
     private double value;
-    public HopperASetPos(hopper subsystem, double value){
+    public WaitForCargo(hopper subsystem){
         hopper = subsystem;
         //value = speed;
         addRequirements(hopper);
     }
 
     public void initialize(){
-        hopper.hopperASetPos(value);
     }
 
     public void execute(){ 
+
     }
 
     public boolean isFinished(){
-        return false;
+        return hopper.getDigitalCargoSensorValue();
     }
 
     public void end() {

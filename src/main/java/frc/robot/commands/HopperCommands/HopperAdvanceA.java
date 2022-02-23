@@ -1,24 +1,31 @@
+/*
+init-get hopper pos
+exe- give number
+*/
 package frc.robot.commands.HopperCommands;
 
 import frc.robot.subsystems.hopper;
 
+import javax.swing.text.Position;
+
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class HopperASetPos extends CommandBase{
+public class HopperAdvanceA extends CommandBase{
     private  hopper hopper;
     private double value;
-    public HopperASetPos(hopper subsystem, double value){
+    public HopperAdvanceA(hopper subsystem, double position){
         hopper = subsystem;
-        //value = speed;
+        value = position;
         addRequirements(hopper);
     }
 
     public void initialize(){
-        hopper.hopperASetPos(value);
+        hopper.hopperAdvanceA(value);
     }
 
     public void execute(){ 
+
     }
 
     public boolean isFinished(){

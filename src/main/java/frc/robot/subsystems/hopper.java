@@ -29,7 +29,7 @@ import frc.robot.Utils.InstrumSRX;
  *
  */
 public class hopper extends SubsystemBase {
-    private DigitalInput digitalCargoSensor = new DigitalInput(9);
+    private DigitalInput digitalCargoSensor = new DigitalInput(0);
     
     Joystick _joy = new Joystick(1);
 
@@ -214,7 +214,19 @@ private WPI_TalonSRX hopperB;
       public double hopperBposition(){
         return hopperB.getSelectedSensorPosition();
       }
-
+      public void hopperAdvanceA(double value){
+        double pos = hopperAposition() + value;
+        hopperA.set(ControlMode.MotionMagic, pos);
+      }
+      public void hopperAdvanceB(double value){
+        double pos = hopperBposition() + value;
+        hopperB.set(ControlMode.MotionMagic, pos);
+      }
+      public boolean getDigitalCargoSensorValue(){
+        if (digitalCargoSensor.get() == true) return false;
+        else if(digitalCargoSensor.get()== false) return true;
+        else return true;
+      }
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
