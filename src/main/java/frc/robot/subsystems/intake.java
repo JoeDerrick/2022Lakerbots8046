@@ -79,9 +79,7 @@ public void intakeLeadPercentPower(double speed) {
     intakeLead.set(ControlMode.PercentOutput, speed); 
 }
 
-public void intakeFollowPercentPower(double speed) {
-    intakeFollow.set(ControlMode.PercentOutput, speed);
-}
+
 
 public void intakeVelocitySet(double speed) {
     intakeLead.set(ControlMode.Velocity,speed);

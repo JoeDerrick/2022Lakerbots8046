@@ -22,7 +22,7 @@ public class WaitForCargo extends CommandBase{
     }
 
     public void execute(){ 
-
+    System.out.println("WAITING FOR BALL");
     }
 
     public boolean isFinished(){
