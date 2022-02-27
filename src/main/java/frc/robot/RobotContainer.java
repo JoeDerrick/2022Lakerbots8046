@@ -11,13 +11,19 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 //import edu.wpi.first.wpilibj.PS4Controller.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
+import frc.robot.commands.SmartCollect;
+import frc.robot.commands.SmartLaunch;
 import frc.robot.commands.ClimberCommands.Climb;
+import frc.robot.commands.ClimberCommands.ClimbBoth;
+import frc.robot.commands.ClimberCommands.ClimbLeft;
+import frc.robot.commands.ClimberCommands.ClimbRight;
 import frc.robot.commands.ClimberCommands.ReleaseArm;
 import frc.robot.commands.DriveCommands.AutoDrive;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
 import frc.robot.commands.DriveCommands.RotateToTarget;
+import frc.robot.commands.HopperCommands.HopperASetPower;
 import frc.robot.commands.HopperCommands.HopperTune;
+import frc.robot.commands.HopperCommands.WaitForCargo;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.IntakeStop;
 import frc.robot.commands.IntakeCommands.LowerIntake;
@@ -33,6 +39,8 @@ import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.pneumatics;
 import frc.robot.subsystems.swerveDrivetrain;
+import frc.robot.commands.IntakeCommands.RaiseIntake;
+import frc.robot.commands.HopperCommands.HopperBSetPower;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -57,8 +65,8 @@ public class RobotContainer {
   
   //public final swerveModules m_swerveModules = new swerveModules();
 // Joysticks
-private final XboxController xboxController0 = new XboxController(1);
-private final XboxController xboxController1 = new XboxController(2);
+private final XboxController xboxController0 = new XboxController(0);
+private final XboxController xboxController1 = new XboxController(1);
 
 
 
@@ -99,7 +107,7 @@ private final XboxController xboxController1 = new XboxController(2);
  
  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
   
- m_hopper.setDefaultCommand(new HopperTune(m_hopper));
+ //m_hopper.setDefaultCommand(new WaitForCargo(m_hopper));
 
     // Configure autonomous sendable chooser
     
@@ -131,26 +139,61 @@ private void configureButtonBindings() {
 //new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new LauncherTestBoth(m_launcher, 0, 0));
 
 
+/*
 new JoystickButton(xboxController0, Button.kLeftBumper.value).whileHeld(new RotateToTarget(m_limelight, m_swerveDrivetrain));
 new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new HoodExtend(m_launcher));
 new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new HoodRetract(m_launcher));
 
-final JoystickButton intakeOnBtn = new JoystickButton(xboxController0, XboxController.Button.kRightBumper.value);        
-intakeOnBtn.whenPressed(new IntakeSpin( m_intake, 0.5 ) ,true);
-    SmartDashboard.putData("intakeOnBtn",new IntakeSpin( m_intake, 0.5 ) );
+*/
 
-final JoystickButton spinlauncherBtn = new JoystickButton(xboxController0, XboxController.Button.kA.value);        
+
+//intake extend/retract
+
+
+new JoystickButton(xboxController0, Button.kX.value).whenPressed(new LowerIntake(m_intake));
+new JoystickButton(xboxController0, Button.kA.value).whenPressed(new RaiseIntake(m_intake));
+new JoystickButton(xboxController0, Button.kB.value).whenPressed(new HoodRetract(m_launcher));
+new JoystickButton(xboxController0, Button.kY.value).whenPressed(new HoodExtend(m_launcher));
+//new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new ClimbBoth(m_climber, 0.25));
+//new JoystickButton(xboxController0, Button.kB.value).whenPressed(new ClimbBoth(m_climber,0));
+//new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new ClimbBoth(m_climber,-.25));
+
+
+/*new JoystickButton(xboxController1, Button.kX.value).whenPressed(new HopperASetPower(m_hopper, 0.25));
+new JoystickButton(xboxController1, Button.kA.value).whenPressed(new HopperBSetPower(m_hopper, 0.25));
+
+new JoystickButton(xboxController1, Button.kY.value).whenPressed(new HopperASetPower(m_hopper, 0));
+new JoystickButton(xboxController1, Button.kB.value).whenPressed(new HopperBSetPower(m_hopper, 0));
+*/
+ 
+new JoystickButton(xboxController1, Button.kA.value).whenPressed(new SmartCollect(m_hopper, m_intake));
+new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new LauncherTestBoth(m_launcher, .3, -.3));
+new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new LauncherTestBoth(m_launcher, 0, 0));
+new JoystickButton(xboxController1, Button.kX.value).whenPressed(new SmartLaunch(m_hopper,m_launcher));
+
+//new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, -0.5));
+new JoystickButton(xboxController1, Button.kB.value).whenPressed(new IntakeSpin(m_intake, 0));
+
+
+
+/*final JoystickButton spinlauncherBtn = new JoystickButton(xboxController0, XboxController.Button.kA.value);        
 spinlauncherBtn.whenPressed(new LauncherGo( m_launcher, 0.5 ) ,true);
     SmartDashboard.putData("launchBtn",new LauncherGo( m_launcher, 0.5 ) );
 
 final JoystickButton stoplauncherBtn = new JoystickButton(xboxController0, XboxController.Button.kB.value);        
 stoplauncherBtn.whenPressed(new LauncherGo( m_launcher, 0.0) ,true);
     SmartDashboard.putData("stopBtn",new LauncherStop( m_launcher ) );
+*/
+
+
+
+
 
 /*final JoystickButton climbRetractBtn = new JoystickButton(xboxController0, XboxController.Button.kY.value);        
 climbRetractBtn.whenPressed(new Climb( m_climber ) ,true);
     SmartDashboard.putData("climbRetractBtn",new Climb( m_climber ) );
 */
+/*
 final JoystickButton HoodExtendBtn = new JoystickButton(xboxController1, XboxController.Button.kRightBumper.value);        
 HoodExtendBtn.whenPressed(new HoodExtend( m_launcher ) ,true);
     SmartDashboard.putData("HoodExtendBtn",new HoodExtend( m_launcher ) );
@@ -158,10 +201,18 @@ HoodExtendBtn.whenPressed(new HoodExtend( m_launcher ) ,true);
 final JoystickButton HoodRetractBtn = new JoystickButton(xboxController1, XboxController.Button.kLeftBumper.value);        
 HoodRetractBtn.whenPressed(new HoodExtend( m_launcher ) ,true);
         SmartDashboard.putData("HoodRetractBtn",new HoodExtend( m_launcher ) );
+*/
 
+/*
 final JoystickButton lowerIntakeBtn = new JoystickButton(xboxController1, XboxController.Button.kX.value);        
 lowerIntakeBtn.whenPressed(new LowerIntake( m_intake ) ,true);
     SmartDashboard.putData("lowerIntakeBtn",new LowerIntake( m_intake ) );
+
+final JoystickButton RaiseIntakeBtn = new JoystickButton(xboxController1, XboxController.Button.kA.value);        
+RaiseIntakeBtn.whenPressed(new RaiseIntake( m_intake ) ,true);
+    SmartDashboard.putData("lowerIntakeBtn",new RaiseIntake( m_intake ) );
+*/
+
 
  /*   final JoystickButton raiseIntakeBtn = new JoystickButton(xboxController1, XboxController.Button.kB.value);        
 raiseIntakeBtn.whenPressed(new LowerIntake( m_intake ) ,true);

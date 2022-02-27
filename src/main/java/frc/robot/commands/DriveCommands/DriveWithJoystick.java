@@ -47,7 +47,7 @@ public class DriveWithJoystick extends CommandBase {
 // all inputs must be under deadband for this mode to be active
       rawOutput = Math.pow(Math.pow(xboxController0.getRightY(),2)
   + Math.pow(xboxController0.getRightX(),2),0.5);
-      System.out.println("deadband mode");
+     // System.out.println("deadband mode");
 
       
     final var xSpeed =0;
@@ -73,7 +73,11 @@ public class DriveWithJoystick extends CommandBase {
       -yspeedLimiter.calculate(xboxController0.getRightX())
       * swerveDrivetrain.kMaxSpeed*.2;
       
-    final var rot = -Pyaw*(currentYaw - swerveDrivetrain.getAngle());
+    //final var rot = -Pyaw*(currentYaw - swerveDrivetrain.getAngle());
+    final var rot =
+    -rotLimiter.calculate(-1*xboxController0.getLeftTriggerAxis()+xboxController0.getRightTriggerAxis())
+      * swerveDrivetrain.kMaxAngularSpeed*.3;
+
 
     //SmartDashboard.putNumber("Current value from gyro", currentYaw);
     //SmartDashboard.putNumber("DriveTrain angle", drivetrain.getAngle());
@@ -84,7 +88,8 @@ public class DriveWithJoystick extends CommandBase {
 
     rawOutput = Math.pow(Math.pow(xboxController0.getRightY(),2)
   + Math.pow(xboxController0.getRightX(),2),0.5);
-      System.out.println(+rawOutput + "yaw lock mode");
+
+      //System.out.println(+rawOutput + "yaw lock mode");
       
       //System.out.println("R-trigger:" + controller.getRightTriggerAxis());
       //System.out.println("L-trigger:" + controller.getLeftTriggerAxis());
@@ -124,7 +129,7 @@ public class DriveWithJoystick extends CommandBase {
   + Math.pow(xboxController0.getRightX(),2),0.5);
 
     //System.out.println(+rawOutput);
-    System.out.println("normal drive mode");
+    //System.out.println("normal drive mode");
     //turned true to false until we get gyro working
     //System.out.println("R-trigger:" + controller.getRightTriggerAxis());
    //System.out.println("L-trigger:" + controller.getLeftTriggerAxis());

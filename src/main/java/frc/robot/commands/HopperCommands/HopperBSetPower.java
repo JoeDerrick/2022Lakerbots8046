@@ -8,17 +8,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class HopperBSetPower extends CommandBase{
     private  hopper hopper;
     private double value;
-    public HopperBSetPower(hopper subsystem, double value){
+    public HopperBSetPower(hopper subsystem, double speed){
         hopper = subsystem;
-        //value = speed;
+        value = -speed;
         addRequirements(hopper);
     }
 
     public void initialize(){
-       hopper.hopperBSetPower(value);
     }
 
     public void execute(){
+        hopper.hopperBSetPower(value);
+
     }
 
     public boolean isFinished(){

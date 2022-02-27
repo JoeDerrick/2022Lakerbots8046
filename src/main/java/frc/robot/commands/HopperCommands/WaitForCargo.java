@@ -30,6 +30,7 @@ public class WaitForCargo extends CommandBase{
     }
 
     public void end() {
+        System.out.println("BALL DETECTED");
 
     }
 

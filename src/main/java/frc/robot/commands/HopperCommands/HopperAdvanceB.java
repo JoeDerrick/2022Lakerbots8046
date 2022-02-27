@@ -6,20 +6,23 @@ package frc.robot.commands.HopperCommands;
 
 import frc.robot.subsystems.hopper;
 
+import javax.swing.text.Position;
+
 //import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class HopperAdvanceB extends CommandBase{
     private  hopper hopper;
     private double value;
-    public HopperAdvanceB(hopper subsystem, double value){
+    public HopperAdvanceB(hopper subsystem, double position){
         hopper = subsystem;
-        //value = speed;
+        value = position;
         addRequirements(hopper);
     }
 
     public void initialize(){
-        hopper.hopperAdvanceB(1000);
+        hopper.resethopperB();
+        hopper.hopperAdvanceB(value);
     }
 
     public void execute(){ 
@@ -27,7 +30,7 @@ public class HopperAdvanceB extends CommandBase{
     }
 
     public boolean isFinished(){
-        return false;
+        return hopper.hopperBAtPosition(value);
     }
 
     public void end() {

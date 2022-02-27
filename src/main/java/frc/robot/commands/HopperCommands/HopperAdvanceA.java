@@ -21,6 +21,7 @@ public class HopperAdvanceA extends CommandBase{
     }
 
     public void initialize(){
+        hopper.resethopperA();
         hopper.hopperAdvanceA(value);
     }
 
@@ -29,8 +30,8 @@ public class HopperAdvanceA extends CommandBase{
     }
 
     public boolean isFinished(){
-        return false;
-    }
+        return hopper.hopperAAtPosition(value) ;
+       }
 
     public void end() {
 

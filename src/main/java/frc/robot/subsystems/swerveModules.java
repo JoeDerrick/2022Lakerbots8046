@@ -21,7 +21,7 @@ private static final double kDriveI = 0.01;
 private static final double kDriveD = 0.1;
 private static final double kDriveF = 0.2;
 
-private static final double kAngleP = 1.5;
+private static final double kAngleP = 1.5;//1.5
 private static final double kAngleI = 0.0;
 private static final double kAngleD = 0.0;
 
