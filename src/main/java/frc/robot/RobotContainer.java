@@ -19,6 +19,7 @@ import frc.robot.commands.ClimberCommands.Climb;
 import frc.robot.commands.ClimberCommands.ClimbBoth;
 import frc.robot.commands.ClimberCommands.ClimbLeft;
 import frc.robot.commands.ClimberCommands.ClimbRight;
+import frc.robot.commands.ClimberCommands.ClimbTogether;
 import frc.robot.commands.ClimberCommands.ClimbWithJoystick;
 import frc.robot.commands.ClimberCommands.ReleaseArm;
 import frc.robot.commands.DriveCommands.AutoDrive;
@@ -109,7 +110,7 @@ private final XboxController xboxController1 = new XboxController(1);
  //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
  
  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
-m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
+m_climber.setDefaultCommand(new ClimbTogether(m_climber, xboxController1));
  //m_hopper.setDefaultCommand(new WaitForCargo(m_hopper));
 
     // Configure autonomous sendable chooser
@@ -157,6 +158,7 @@ new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGo
 new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
 
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
+//----resets gyro with Left Bumper ------------------------------//
 
 
 
