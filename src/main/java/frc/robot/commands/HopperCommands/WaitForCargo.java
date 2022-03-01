@@ -26,7 +26,7 @@ public class WaitForCargo extends CommandBase{
     }
 
     public boolean isFinished(){
-        return hopper.getDigitalCargoSensorValue();
+        return hopper.getDigitalCargoSensorA();
     }
 
     public void end() {

@@ -29,7 +29,7 @@ import frc.robot.Utils.InstrumSRX;
  *
  */
 public class hopper extends SubsystemBase {
-    private DigitalInput digitalCargoSensor = new DigitalInput(1);
+    private DigitalInput digitalCargoSensorA = new DigitalInput(1);
     
     Joystick _joy = new Joystick(1);
 
@@ -246,9 +246,21 @@ private WPI_TalonSRX hopperB;
         double pos = hopperBposition() + value;
         hopperB.set(ControlMode.MotionMagic, pos);
       }
-      public boolean getDigitalCargoSensorValue(){
+      public boolean getDigitalCargoSensorA(){
         System.out.println("checking sensor");
-        if (digitalCargoSensor.get() == true){
+        if (digitalCargoSensorA.get() == true){
+          System.out.println("Sensor checked true");
+          return false;
+        }
+        else{
+          System.out.println("Sensor checked false");
+          return true;
+        }
+      }
+
+      public boolean getDigitalCargoSensorB(){
+        System.out.println("checking sensor");
+        if (digitalCargoSensorA.get() == true){
           System.out.println("Sensor checked true");
           return false;
         }

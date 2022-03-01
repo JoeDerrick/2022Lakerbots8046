@@ -81,3 +81,9 @@ Smart command group things
 
 different smart launches for diff spots
 pass power 2 robot container
+
+2/29/22
+Add 2nd Digital input in hopper correspondant with Hopper A,B
+Add 2nd Boolean to test logic also name/rename AB
+
+
