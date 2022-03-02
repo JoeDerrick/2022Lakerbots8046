@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.SmartCommands;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -13,7 +13,6 @@ import frc.robot.commands.HopperCommands.WaitForCargo;
 import frc.robot.commands.LauncherCommands.LauncherGo;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
-import frc.robot.commands.LauncherHoodCommands.HoodRetract;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.launcher;
 
@@ -32,23 +31,23 @@ import frc.robot.subsystems.launcher;
 
 
 
-public class LaunchHighGoalFender extends SequentialCommandGroup {
+public class LaunchLowGoal extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public LaunchHighGoalFender(hopper hopper, launcher launcher){
+    public LaunchLowGoal(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.3;
-        double rearPower = 0.3;
+        double leadPower = 0.35;
+        double rearPower = -0.15;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
-            new HoodRetract(launcher),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
-            new HopperASetSpeed(hopper, 4000),
-            new HopperBSetSpeed(hopper, -2000),
+            new HoodExtend(launcher),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(1.0),
+            new HopperASetPower(hopper,-0.5),
+            new HopperBSetPower(hopper,-0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(3),
             new LauncherGo(launcher, 0),
             new HopperASetPower(hopper, 0),

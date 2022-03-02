@@ -10,11 +10,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.LaunchHighGoalFender;
-import frc.robot.commands.LaunchLowGoal;
-import frc.robot.commands.SmartCollect;
-import frc.robot.commands.SmartLaunch;
-import frc.robot.commands.StopCollecting;
 import frc.robot.commands.ClimberCommands.Climb;
 import frc.robot.commands.ClimberCommands.ClimbBoth;
 import frc.robot.commands.ClimberCommands.ClimbLeft;
@@ -36,6 +31,13 @@ import frc.robot.commands.LauncherCommands.LauncherStop;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.commands.LauncherHoodCommands.HoodRetract;
+import frc.robot.commands.SmartCommands.LaunchHighGoalFender;
+import frc.robot.commands.SmartCommands.LaunchHighGoalTarmac;
+import frc.robot.commands.SmartCommands.LaunchLowGoal;
+import frc.robot.commands.SmartCommands.SmartCollect;
+import frc.robot.commands.SmartCommands.SmartLaunch;
+import frc.robot.commands.SmartCommands.StopCollecting;
+import frc.robot.commands.SmartCommands.TarmacAuto;
 import frc.robot.subsystems.climber;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.intake;
@@ -109,14 +111,14 @@ private final XboxController xboxController1 = new XboxController(1);
 
  //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
  
- m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
-m_climber.setDefaultCommand(new ClimbTogether(m_climber, xboxController1));
- //m_hopper.setDefaultCommand(new WaitForCargo(m_hopper));
+  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
+  m_climber.setDefaultCommand(new ClimbTogether(m_climber, xboxController1));
 
     // Configure autonomous sendable chooser
     
 
-    m_chooser.setDefaultOption("Autonomous Command", new AutoDrive(m_swerveDrivetrain));
+    m_chooser.setDefaultOption("Tarmac Auto", new TarmacAuto(m_hopper, m_launcher, m_swerveDrivetrain));
+    m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
 
     SmartDashboard.putData("Auto Mode", m_chooser);
 
@@ -152,10 +154,10 @@ new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new Ho
 //intake extend/retract
 //----------------DRIVER CONTROLS-----------------------------//
 
-new JoystickButton(xboxController0, Button.kA.value).whenPressed(new SmartCollect(m_hopper, m_intake));
-new JoystickButton(xboxController0, Button.kX.value).whenPressed(new LaunchHighGoalFender(m_hopper, m_launcher));
+new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchHighGoalFender(m_hopper, m_launcher));
+new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
-new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
+new JoystickButton(xboxController0, Button.kA.value).whenPressed(new LaunchHighGoalTarmac(m_hopper, m_launcher));
 
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
 //----resets gyro with Left Bumper ------------------------------//
@@ -166,7 +168,9 @@ new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchLowGo
 
 new JoystickButton(xboxController1, Button.kX.value).whenPressed(new RaiseIntake(m_intake)); 
 new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
-new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, -0.25));
+new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, 0.25)); //<--- maybe
+
+new JoystickButton(xboxController1, Button.kB.value).whenPressed(new LowerIntake(m_intake));
 
 //---OPerator Also controls climber with left and right y- Joysticks -----//
 

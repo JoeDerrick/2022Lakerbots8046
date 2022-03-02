@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.SmartCommands;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;

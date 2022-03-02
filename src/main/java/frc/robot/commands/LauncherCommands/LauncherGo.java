@@ -48,6 +48,7 @@ public class LauncherGo extends CommandBase {
     @Override
     public void execute() {
         launcher.launcherLeadPercentPower(value);
+        launcher.launcherFollowPercentPower(value);
         
     }
 
@@ -59,7 +60,7 @@ public class LauncherGo extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

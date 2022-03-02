@@ -58,17 +58,17 @@ if(xBoxController1.getLeftBumper()){
     };
     */
 
-        if(m_climber.getClimberLeftposition()> m_climber.getClimberRightposition()){
-           m_climber.climberLeftSetPower(xBoxController1.getRawAxis(3)*.4);
-        m_climber.climberRightSetPower(xBoxController1.getRawAxis(3)*.3); 
+        if(m_climber.getClimberLeftposition()< m_climber.getClimberRightposition()){
+           m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.4);
+        m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.3); 
         }
-        else if(m_climber.getClimberLeftposition()< m_climber.getClimberRightposition()){
-        m_climber.climberLeftSetPower(xBoxController1.getRawAxis(3)*.3);
-        m_climber.climberRightSetPower(xBoxController1.getRawAxis(3)*.4); 
+        else if(m_climber.getClimberLeftposition()> m_climber.getClimberRightposition()){
+        m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.3);
+        m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.4); 
         }
         else{
-            m_climber.climberLeftSetPower(xBoxController1.getRawAxis(3)*.4);
-            m_climber.climberRightSetPower(xBoxController1.getRawAxis(3)*.4); 
+            m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.4);
+            m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.4); 
         }
         
     }

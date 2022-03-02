@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.SmartCommands;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -40,14 +40,14 @@ public class LaunchHighGoalTarmac extends SequentialCommandGroup {
         //hopper = subsystem;
         //addRequirements(hopper);
         double leadPower = 0.7;
-        double rearPower = 0.5;
+        double rearPower = -0.5;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
             new HoodExtend(launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
-            new HopperASetSpeed(hopper, 4000),
-            new HopperBSetSpeed(hopper, -2000),
+            new HopperASetPower(hopper, -0.5),
+            new HopperBSetPower(hopper, -0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(3),
             new LauncherGo(launcher, 0),
             new HopperASetPower(hopper, 0),

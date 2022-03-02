@@ -45,8 +45,8 @@ public class DriveWithJoystick extends CommandBase {
     //
     if(rawOutput< deadband && xboxController0.getLeftTriggerAxis() < 0.1 && xboxController0.getRightTriggerAxis() < 0.1){
 // all inputs must be under deadband for this mode to be active
-      rawOutput = Math.pow(Math.pow(xboxController0.getRightY(),2)
-  + Math.pow(xboxController0.getRightX(),2),0.5);
+      rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
+  + Math.pow(xboxController0.getLeftX(),2),0.5);
      // System.out.println("deadband mode");
 
       
@@ -66,11 +66,11 @@ public class DriveWithJoystick extends CommandBase {
 //Never leaving "Yaw lock mode" so the robot cannot rotate.-Not sure what the trigger values are/create a deadband for them.
 //resolved 12/14/22
     final var xSpeed = 
-      -xspeedLimiter.calculate(xboxController0.getRightY())
+      -xspeedLimiter.calculate(xboxController0.getLeftY())
       *swerveDrivetrain.kMaxSpeed*.2;
 
     final var ySpeed = 
-      -yspeedLimiter.calculate(xboxController0.getRightX())
+      -yspeedLimiter.calculate(xboxController0.getLeftX())
       * swerveDrivetrain.kMaxSpeed*.2;
       
     //final var rot = -Pyaw*(currentYaw - swerveDrivetrain.getAngle());
@@ -86,8 +86,8 @@ public class DriveWithJoystick extends CommandBase {
 
     swerveDrivetrain.drive(xSpeed, ySpeed, rot, true, calibrate);
 
-    rawOutput = Math.pow(Math.pow(xboxController0.getRightY(),2)
-  + Math.pow(xboxController0.getRightX(),2),0.5);
+    rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
+  + Math.pow(xboxController0.getLeftX(),2),0.5);
 
       //System.out.println(+rawOutput + "yaw lock mode");
       
@@ -102,14 +102,14 @@ public class DriveWithJoystick extends CommandBase {
     // Get the x speed. We are inverting this because Xbox controllers return
     // negative values when we push forward.
     final var xSpeed =
-      -xspeedLimiter.calculate(xboxController0.getRightY())
+      -xspeedLimiter.calculate(xboxController0.getLeftY())
         * swerveDrivetrain.kMaxSpeed*.2;//.3 is a speed limiter
 
     // Get the y speed or sideways/strafe speed. We are inverting this because
     // we want a positive value when we pull to the left. Xbox controllers
     // return positive values when you pull to the right by default.
     final var ySpeed =
-      -yspeedLimiter.calculate(xboxController0.getRightX())
+      -yspeedLimiter.calculate(xboxController0.getLeftX())
         * swerveDrivetrain.kMaxSpeed*.2;
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
@@ -125,8 +125,8 @@ public class DriveWithJoystick extends CommandBase {
 
     swerveDrivetrain.drive(xSpeed, ySpeed, rot, true, calibrate);
 
-    rawOutput = Math.pow(Math.pow(xboxController0.getRightY(),2)
-  + Math.pow(xboxController0.getRightX(),2),0.5);
+    rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
+  + Math.pow(xboxController0.getLeftX(),2),0.5);
 
     //System.out.println(+rawOutput);
     //System.out.println("normal drive mode");

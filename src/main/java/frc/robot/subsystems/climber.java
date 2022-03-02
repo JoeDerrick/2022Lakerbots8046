@@ -34,7 +34,7 @@ private WPI_TalonFX climberLeft;
 private WPI_TalonFX climberRight;
 private DoubleSolenoid armRelease;
 
-Joystick _joy = new Joystick(0);  
+Joystick _joy = new Joystick(1);  
 
 StringBuilder _sb = new StringBuilder();
 

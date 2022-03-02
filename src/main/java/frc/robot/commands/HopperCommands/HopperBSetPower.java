@@ -23,7 +23,7 @@ public class HopperBSetPower extends CommandBase{
     }
 
     public boolean isFinished(){
-        return false;
+        return true;
     }
 
     public void end() {
