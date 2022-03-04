@@ -29,10 +29,10 @@ public class swerveDrivetrain extends SubsystemBase {
   //this is where you put the angle offsets you got from the smart dashboard
   //Need to be tuned!!!
 
-  public static double frontLeftOffset = 311.0;//       //module __
-  public static double frontRightOffset = 158.0;//      //module __
-  public static double backLeftOffset = 149.0;//        //module __
-  public static double backRightOffset = 291.0;//       //module __
+  public static double frontLeftOffset = 10.0;//       //module _0_
+  public static double frontRightOffset = 158.0;//      //module _1_
+  public static double backLeftOffset = 165.0;//        //module _2_
+  public static double backRightOffset = 291.0;//       //module _3_
 
   // note errata Cancoders can't have an ID higher than 15 if they are to be used as remote sensors on talon fx
 
@@ -159,7 +159,7 @@ public class swerveDrivetrain extends SubsystemBase {
      // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       //below is a line to comment out from step 5
      //
-      module.setDesiredState(state);
+      //module.setDesiredState(state);
       SmartDashboard.putNumber("gyro Angle", getAngle());
     }
      //-----smart Dashboard outputs ----// re-write without the fancy states thing to make it clearer
