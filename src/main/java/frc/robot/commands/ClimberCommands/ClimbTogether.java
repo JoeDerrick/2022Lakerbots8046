@@ -58,19 +58,20 @@ if(xBoxController1.getLeftBumper()){
     };
     */
 
-        if(m_climber.getClimberLeftposition()< m_climber.getClimberRightposition()){
-           m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.4);
-        m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.3); 
-        }
-        else if(m_climber.getClimberLeftposition()> m_climber.getClimberRightposition()){
-        m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.3);
+        if(Math.abs(m_climber.getClimberLeftposition()) < Math.abs(m_climber.getClimberRightposition())){
+           m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.3);
         m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.4); 
+        }
+        else if(Math.abs(m_climber.getClimberLeftposition()) > Math.abs(m_climber.getClimberRightposition())){
+        m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.4);
+        m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.3); 
         }
         else{
             m_climber.climberLeftSetPower(xBoxController1.getLeftY()*0.4);
             m_climber.climberRightSetPower(xBoxController1.getLeftY()*0.4); 
         }
-        
+        System.out.println("\nleftencoder" + m_climber.getClimberLeftposition() + "       rightencoder" + m_climber.getClimberRightposition() + "\n" );
+
     }
 
     // Called once the command ends or is interrupted.

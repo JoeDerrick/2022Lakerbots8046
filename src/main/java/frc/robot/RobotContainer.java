@@ -117,7 +117,7 @@ private final XboxController xboxController1 = new XboxController(1);
     // Configure autonomous sendable chooser
     
 
-    m_chooser.setDefaultOption("Tarmac Auto", new TarmacAuto(m_hopper, m_launcher, m_swerveDrivetrain));
+    m_chooser.setDefaultOption("Tarmac Auto", new TarmacAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake));
     m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
 
     SmartDashboard.putData("Auto Mode", m_chooser);

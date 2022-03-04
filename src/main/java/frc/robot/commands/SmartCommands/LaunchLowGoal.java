@@ -39,14 +39,15 @@ public class LaunchLowGoal extends SequentialCommandGroup {
     public LaunchLowGoal(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.35;
-        double rearPower = -0.15;
+        double leadPower = 0.40;
+        double rearPower = -0.20;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
             new HoodExtend(launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(1.0),
             new HopperASetPower(hopper,-0.5),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
             new HopperBSetPower(hopper,-0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(3),
             new LauncherGo(launcher, 0),

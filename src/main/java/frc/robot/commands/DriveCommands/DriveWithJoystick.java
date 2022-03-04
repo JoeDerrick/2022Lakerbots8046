@@ -54,8 +54,8 @@ public class DriveWithJoystick extends CommandBase {
     final var ySpeed =0;
     final var rot =0;
 
-    boolean calibrate = xboxController0.getLeftBumper();
-    swerveDrivetrain.drive(xSpeed, ySpeed, rot, true, calibrate);
+    boolean calibrate = xboxController0.getRightBumper();
+    swerveDrivetrain.drive(xSpeed, ySpeed, rot, false, calibrate); //set "false" to "true" if you want to use field-oriented driving (In two other places farther down)
     //System.out.println("R-trigger:" + controller.getRightTriggerAxis());
     //System.out.println("L-trigger:" + controller.getLeftTriggerAxis());
 
@@ -82,9 +82,9 @@ public class DriveWithJoystick extends CommandBase {
     //SmartDashboard.putNumber("Current value from gyro", currentYaw);
     //SmartDashboard.putNumber("DriveTrain angle", drivetrain.getAngle());
 
-    boolean calibrate = xboxController0.getLeftBumper();
+    boolean calibrate = xboxController0.getRightBumper();
 
-    swerveDrivetrain.drive(xSpeed, ySpeed, rot, true, calibrate);
+    swerveDrivetrain.drive(xSpeed, ySpeed, rot, false, calibrate);
 
     rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
   + Math.pow(xboxController0.getLeftX(),2),0.5);
@@ -119,11 +119,11 @@ public class DriveWithJoystick extends CommandBase {
       -rotLimiter.calculate(-1*xboxController0.getLeftTriggerAxis()+xboxController0.getRightTriggerAxis())
         * swerveDrivetrain.kMaxAngularSpeed*.3;
 
-    boolean calibrate = xboxController0.getLeftBumper();
+    boolean calibrate = xboxController0.getRightBumper();
 
     currentYaw = swerveDrivetrain.getAngle();
 
-    swerveDrivetrain.drive(xSpeed, ySpeed, rot, true, calibrate);
+    swerveDrivetrain.drive(xSpeed, ySpeed, rot, false, calibrate);
 
     rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
   + Math.pow(xboxController0.getLeftX(),2),0.5);

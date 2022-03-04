@@ -40,15 +40,16 @@ public class LaunchHighGoalFender extends SequentialCommandGroup {
     public LaunchHighGoalFender(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.4;
+        double leadPower = 0.5;
         double rearPower = -0.4;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
             new HoodRetract(launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
-            new HopperASetSpeed(hopper,-0.5),
-            new HopperBSetSpeed(hopper, -0.5),
+            new HopperASetPower(hopper,-0.5),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.75),
+            new HopperBSetPower(hopper, -0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(3),
             new LauncherGo(launcher, 0),
             new HopperASetPower(hopper, 0),

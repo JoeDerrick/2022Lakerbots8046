@@ -39,14 +39,15 @@ public class LaunchHighGoalTarmac extends SequentialCommandGroup {
     public LaunchHighGoalTarmac(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.7;
-        double rearPower = -0.5;
+        double leadPower = 0.65;
+        double rearPower = -0.4;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
             new HoodExtend(launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
             new HopperASetPower(hopper, -0.5),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
             new HopperBSetPower(hopper, -0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(3),
             new LauncherGo(launcher, 0),
