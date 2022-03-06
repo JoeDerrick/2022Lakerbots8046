@@ -1,13 +1,13 @@
 
-package frc.robot.commands;
+package frc.robot.commands.DriveCommands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.swerveDrivetrain;
 
-public class AutoDrive2 extends CommandBase {
+public class DriveBackwards extends CommandBase {
   private final swerveDrivetrain m_drivetrain;
   /** Creates a new AutoDriveSwerve. */
-  public AutoDrive2(swerveDrivetrain drivetrain) {
+  public DriveBackwards(swerveDrivetrain drivetrain) {
     m_drivetrain=drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -25,13 +25,13 @@ public class AutoDrive2 extends CommandBase {
   public void execute() {
     System.out.println("average drive encoder value" +m_drivetrain.getAverageEncoderValue());
    
-    final var xSpeed =0.3;
+    final var xSpeed =-0.3;
 
     final var ySpeed =0.0;
    
     final var rot = 0.0;
 
-    m_drivetrain.drive(xSpeed, ySpeed, rot, true, false);
+    m_drivetrain.drive(xSpeed, ySpeed, rot, false, false);
     System.out.println("executing");
   }
 

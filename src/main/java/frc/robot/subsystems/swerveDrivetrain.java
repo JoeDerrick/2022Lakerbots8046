@@ -30,7 +30,7 @@ public class swerveDrivetrain extends SubsystemBase {
   //Need to be tuned!!!
 
   public static double frontLeftOffset = 10.0;//       //module _0_
-  public static double frontRightOffset = 158.0;//      //module _1_
+  public static double frontRightOffset = 151.0;//      //module _1_
   public static double backLeftOffset = 165.0;//        //module _2_
   public static double backRightOffset = 291.0;//       //module _3_
 
@@ -159,7 +159,7 @@ public class swerveDrivetrain extends SubsystemBase {
      // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       //below is a line to comment out from step 5
      //
-      //module.setDesiredState(state);
+      module.setDesiredState(state); ///-----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
       SmartDashboard.putNumber("gyro Angle", getAngle());
     }
      //-----smart Dashboard outputs ----// re-write without the fancy states thing to make it clearer

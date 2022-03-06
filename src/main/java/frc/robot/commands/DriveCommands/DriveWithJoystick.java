@@ -22,6 +22,8 @@ public class DriveWithJoystick extends CommandBase {
     public double  rawOutput;
     private double currentYaw;
     private double Pyaw = 0.05; //0.05?//test commit//test
+    public double speedLimit = 0.3;
+    public double rotateLimit =0.4;
   
   public DriveWithJoystick( swerveDrivetrain subsystem, XboxController controller) {
     //this.drivetrain = drivetrain;
@@ -67,16 +69,16 @@ public class DriveWithJoystick extends CommandBase {
 //resolved 12/14/22
     final var xSpeed = 
       -xspeedLimiter.calculate(xboxController0.getLeftY())
-      *swerveDrivetrain.kMaxSpeed*.2;
+      *swerveDrivetrain.kMaxSpeed*speedLimit;
 
     final var ySpeed = 
       -yspeedLimiter.calculate(xboxController0.getLeftX())
-      * swerveDrivetrain.kMaxSpeed*.2;
+      * swerveDrivetrain.kMaxSpeed*speedLimit;
       
     //final var rot = -Pyaw*(currentYaw - swerveDrivetrain.getAngle());
     final var rot =
     -rotLimiter.calculate(-1*xboxController0.getLeftTriggerAxis()+xboxController0.getRightTriggerAxis())
-      * swerveDrivetrain.kMaxAngularSpeed*.3;
+      * swerveDrivetrain.kMaxAngularSpeed*rotateLimit;
 
 
     //SmartDashboard.putNumber("Current value from gyro", currentYaw);
@@ -103,21 +105,21 @@ public class DriveWithJoystick extends CommandBase {
     // negative values when we push forward.
     final var xSpeed =
       -xspeedLimiter.calculate(xboxController0.getLeftY())
-        * swerveDrivetrain.kMaxSpeed*.2;//.3 is a speed limiter
+        * swerveDrivetrain.kMaxSpeed*speedLimit;//.3 is a speed limiter
 
     // Get the y speed or sideways/strafe speed. We are inverting this because
     // we want a positive value when we pull to the left. Xbox controllers
     // return positive values when you pull to the right by default.
     final var ySpeed =
       -yspeedLimiter.calculate(xboxController0.getLeftX())
-        * swerveDrivetrain.kMaxSpeed*.2;
+        * swerveDrivetrain.kMaxSpeed*speedLimit;
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
     // the right by default.
     final var rot =
       -rotLimiter.calculate(-1*xboxController0.getLeftTriggerAxis()+xboxController0.getRightTriggerAxis())
-        * swerveDrivetrain.kMaxAngularSpeed*.3;
+        * swerveDrivetrain.kMaxAngularSpeed*rotateLimit;
 
     boolean calibrate = xboxController0.getRightBumper();
 

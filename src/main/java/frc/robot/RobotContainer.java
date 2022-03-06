@@ -17,7 +17,7 @@ import frc.robot.commands.ClimberCommands.ClimbRight;
 import frc.robot.commands.ClimberCommands.ClimbTogether;
 import frc.robot.commands.ClimberCommands.ClimbWithJoystick;
 import frc.robot.commands.ClimberCommands.ReleaseArm;
-import frc.robot.commands.DriveCommands.AutoDrive;
+import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
 import frc.robot.commands.DriveCommands.RotateToTarget;
 import frc.robot.commands.HopperCommands.HopperASetPower;
@@ -112,7 +112,7 @@ private final XboxController xboxController1 = new XboxController(1);
  //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
  
   m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
-  m_climber.setDefaultCommand(new ClimbTogether(m_climber, xboxController1));
+  m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
 
     // Configure autonomous sendable chooser
     
@@ -158,7 +158,7 @@ new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchHighG
 new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kA.value).whenPressed(new LaunchHighGoalTarmac(m_hopper, m_launcher));
-
+new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
 //----resets gyro with Left Bumper ------------------------------//
 
@@ -167,9 +167,7 @@ new JoystickButton(xboxController0, Button.kA.value).whenPressed(new LaunchHighG
 //-------------------OPERATOR CONTROLS-----------------------------//
 
 new JoystickButton(xboxController1, Button.kX.value).whenPressed(new RaiseIntake(m_intake)); 
-new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
 new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, 0.25)); //<--- maybe
-
 new JoystickButton(xboxController1, Button.kB.value).whenPressed(new LowerIntake(m_intake));
 
 //---OPerator Also controls climber with left and right y- Joysticks -----//

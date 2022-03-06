@@ -39,8 +39,8 @@ public class LaunchHighGoalTarmac extends SequentialCommandGroup {
     public LaunchHighGoalTarmac(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.65;
-        double rearPower = -0.4;
+        double leadPower = 0.6;//0.65
+        double rearPower = -0.1;//-0.3
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),

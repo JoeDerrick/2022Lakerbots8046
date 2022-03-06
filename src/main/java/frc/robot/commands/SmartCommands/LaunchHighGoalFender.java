@@ -40,8 +40,8 @@ public class LaunchHighGoalFender extends SequentialCommandGroup {
     public LaunchHighGoalFender(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.5;
-        double rearPower = -0.4;
+        double leadPower = 0.75;
+        double rearPower = -0.25;
 
         addCommands(
             new LauncherTestBoth(launcher, leadPower, rearPower),
@@ -55,7 +55,7 @@ public class LaunchHighGoalFender extends SequentialCommandGroup {
             new HopperASetPower(hopper, 0),
             new HopperBSetPower(hopper, 0)
             //new HopperAdvanceB(hopper, -38000)
-        );
+        );      
     }
 
     @Override
