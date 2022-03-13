@@ -50,6 +50,7 @@ public class RaiseIntake extends CommandBase {
     @Override
     public void initialize() {
         m_intake.retractPiston();
+        System.out.println("intake raised");
     }
 
     // Called every time the scheduler runs while the command is scheduled.

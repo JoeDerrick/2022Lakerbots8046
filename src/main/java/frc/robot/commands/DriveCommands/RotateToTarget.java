@@ -13,46 +13,74 @@ import edu.wpi.first.networktables.NetworkTableType;
 
 public class RotateToTarget extends CommandBase {
   private limelight m_limelight;
-  private swerveDrivetrain m_SwerveDrivetrain;
+  private swerveDrivetrain m_drivetrain;
 //rotate proportainal to how close you are to target
-double Kp = 0.1;
+double Kp = 0.24;
 //rotate floor
-double min_command = 0.05;
+double min_command = 0.005;
   
-  public RotateToTarget(limelight m_lLimelight, swerveDrivetrain m_SwerveDrivetrain) {
+  public RotateToTarget(limelight m_lLimelight, swerveDrivetrain drivetrain) {
     m_limelight = m_lLimelight;
-    m_SwerveDrivetrain= m_SwerveDrivetrain;
-    addRequirements(m_limelight, m_SwerveDrivetrain);
+    m_drivetrain= drivetrain;
+    addRequirements(m_limelight,drivetrain);
     
   }
-  public void initialize(){
+ public void initialize(){
     System.out.println("Limelight mode : ACTIVATE");
-    m_limelight.changeLEDMode(3);  
+    //if(m_limelight.getLEDState() == 1){
+    
+    //else{
+    //  m_limelight.turnOffLEDs();
+    //System.out.println("Limelight mode : change led mode to on");
  }
 
  public void execute(){
   //add the if else part functionality here handle turning both directions. 
   double rot = 0; // <--- compiler is stopid
-  double x = m_limelight.getx();
+  double maxRot = 0.7;
+
+  double x = m_limelight.getState().xOffset;
+
+  //double x = m_limelight.getx();
+
+  //1 is threshold
   if(x > 1.0){
-    rot = Kp*(m_limelight.getx()) + min_command;
+   rot = -Kp*(x);
   }
   else if(x < 1.0){
-    rot = Kp*(m_limelight.getx()) - min_command;
+   rot = -Kp*(x);
   }
-    m_SwerveDrivetrain.drive(0,0, rot, false, false); 
+    if(rot > maxRot){
+      rot = maxRot;
+    }
+    if(rot < -maxRot){
+      rot = -maxRot;
+    }
+    System.out.println("rot="+rot);
+    System.out.println("x="+x);
+      m_drivetrain.drive(0,0, rot, false, false); 
   }
 
 
  
  public boolean isFinished(){
-    double threshold = 10;
-    return m_limelight.onRotationalTarget(threshold);
+  double threshold = 5;
+  double x = m_limelight.getState().xOffset;
+  if(Math.abs(x) < threshold){
+    m_drivetrain.drive(0,0, 0, false, false); 
+    System.out.println("finished");
+    return true;
+   
+  }  
+  else{
+    return false; 
+  }
+    //m_limelight.onRotationalTarget(threshold);
  }
 
  public void end() {
 
- }
+}
 
  public void interrupted(){
      end();

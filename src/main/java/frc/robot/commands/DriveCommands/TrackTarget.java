@@ -32,8 +32,9 @@ double min_command = 0.05;
  public void execute(){
 
   //add the if else part functionality here to handle turning both directions. 
-   double rot = Kp*(m_limelight.getx()) + min_command;
-    m_SwerveDrivetrain.drive(0,0, rot, false, false);
+   
+  //double rot = Kp*(m_limelight.getx()) + min_command;
+    //m_SwerveDrivetrain.drive(0,0, rot, false, false);
   }
  
  public boolean isFinished(){

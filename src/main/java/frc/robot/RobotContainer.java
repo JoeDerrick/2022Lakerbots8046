@@ -31,13 +31,6 @@ import frc.robot.commands.LauncherCommands.LauncherStop;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.commands.LauncherHoodCommands.HoodRetract;
-import frc.robot.commands.SmartCommands.LaunchHighGoalFender;
-import frc.robot.commands.SmartCommands.LaunchHighGoalTarmac;
-import frc.robot.commands.SmartCommands.LaunchLowGoal;
-import frc.robot.commands.SmartCommands.SmartCollect;
-import frc.robot.commands.SmartCommands.SmartLaunch;
-import frc.robot.commands.SmartCommands.StopCollecting;
-import frc.robot.commands.SmartCommands.TarmacAuto;
 import frc.robot.subsystems.climber;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.intake;
@@ -47,7 +40,9 @@ import frc.robot.subsystems.pneumatics;
 import frc.robot.subsystems.swerveDrivetrain;
 import frc.robot.commands.IntakeCommands.RaiseIntake;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
-
+import frc.robot.commands.LimeLightCommands.*;
+import frc.robot.commands.DriveCommands.RotateToTarget;
+import frc.robot.commands.SmartCommands.*;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -111,7 +106,7 @@ private final XboxController xboxController1 = new XboxController(1);
 
  //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
  
-  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
+  //m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
   m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
 
     // Configure autonomous sendable chooser
@@ -119,6 +114,8 @@ private final XboxController xboxController1 = new XboxController(1);
 
     m_chooser.setDefaultOption("Tarmac Auto", new TarmacAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake));
     m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
+    m_chooser.addOption("Drive Backwards", new DriveBackwards(m_swerveDrivetrain));
+    m_chooser.addOption("2 Ball Auto", new TwoBallAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake));
 
     SmartDashboard.putData("Auto Mode", m_chooser);
 
@@ -169,7 +166,8 @@ new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new S
 new JoystickButton(xboxController1, Button.kX.value).whenPressed(new RaiseIntake(m_intake)); 
 new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, 0.25)); //<--- maybe
 new JoystickButton(xboxController1, Button.kB.value).whenPressed(new LowerIntake(m_intake));
-
+new JoystickButton(xboxController1, Button.kA.value).whenPressed(new SmartRotateToTarget(m_hopper, m_launcher, 0.3, 0.4, m_limelight, m_swerveDrivetrain));
+new JoystickButton(xboxController1, Button.kY.value).whenPressed(new turnOffLEDs(m_limelight));
 //---OPerator Also controls climber with left and right y- Joysticks -----//
 
 

@@ -155,21 +155,21 @@ public class swerveDrivetrain extends SubsystemBase {
     for (int j = 0; j < states.length; j++) {
       swerveModules module = modules[j];
       SwerveModuleState state = states[j];
-      SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());
+     // SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());
      // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       //below is a line to comment out from step 5
      //
       module.setDesiredState(state); ///-----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
-      SmartDashboard.putNumber("gyro Angle", getAngle());
+     // SmartDashboard.putNumber("gyro Angle", getAngle());
     }
      //-----smart Dashboard outputs ----// re-write without the fancy states thing to make it clearer
-     /*for (int i = 0; i < states.length; i++) {
+     for (int i = 0; i < states.length; i++) {
       swerveModules module = modules[i];
       SwerveModuleState state = states[i];
-      SmartDashboard.putNumber(String.valueOf(i), module.getWheelPosition()/1000);
+      SmartDashboard.putNumber(String.valueOf(i), module.getWheelPosition()/1350);
     }
       SmartDashboard.putNumber("Average Drive EncoderValue", getAverageEncoderValue());
-      */
+      
   }
   public double getAverageEncoderValue(){
     swerveModules module0 = modules[0];
@@ -177,11 +177,11 @@ public class swerveDrivetrain extends SubsystemBase {
     swerveModules module2 = modules[2];
     swerveModules module3 = modules[3];
 
-    return  ((Math.abs(module0.getWheelPosition())+
+    return  (((Math.abs(module0.getWheelPosition())+
               Math.abs(module1.getWheelPosition())+
               Math.abs(module2.getWheelPosition())+
               Math.abs(module3.getWheelPosition())//Do the math to make this into inches
-              )/4000);
+              )/4)/(1350)); //1280 ticks per revolution (2048 ticks per rev x 6.8 Gear Ratio / 2pi x3.5 inches per rev)
   
   }
 
@@ -209,6 +209,7 @@ public class swerveDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
   }
 
   @Override

@@ -268,11 +268,11 @@ private WPI_TalonSRX hopperB;
       public boolean getDigitalCargoSensorB(){
         System.out.println("checking sensor");
         if (digitalCargoSensorB.get() == true){
-          System.out.println("Sensor checked true");
+         // System.out.println("Sensor checked true");
           return false;
         }
         else{
-          System.out.println("Sensor checked false");
+         // System.out.println("Sensor checked false");
           return true;
         }
       }

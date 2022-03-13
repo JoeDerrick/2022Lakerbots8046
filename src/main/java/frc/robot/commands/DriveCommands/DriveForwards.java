@@ -5,13 +5,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.swerveDrivetrain;
 
-public class DriveBackwards extends CommandBase {
+
+public class DriveForwards extends CommandBase {
+  double value;
   private final swerveDrivetrain m_drivetrain;
   /** Creates a new AutoDriveSwerve. */
-  public DriveBackwards(swerveDrivetrain drivetrain) {
+  public DriveForwards(swerveDrivetrain drivetrain, double amount) {
     m_drivetrain=drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
+    value = amount;
   }
 
   // Called when the command is initially scheduled.
@@ -26,7 +29,7 @@ public class DriveBackwards extends CommandBase {
   public void execute() {
     
    
-    final var xSpeed =-0.3;
+    final var xSpeed =0.3;
 
     final var ySpeed =0.0;
    
@@ -45,7 +48,7 @@ public class DriveBackwards extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      if (m_drivetrain.getAverageEncoderValue()<40){
+      if (m_drivetrain.getAverageEncoderValue() < value){
         return false;
       }
       return true;
