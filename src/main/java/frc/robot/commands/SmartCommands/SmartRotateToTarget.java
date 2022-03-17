@@ -33,7 +33,7 @@ public class SmartRotateToTarget extends SequentialCommandGroup {
            
             new turnOnLEDs(limelight),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new RotateToTarget(limelight, swerveDrivetrain),
+            new RotateToTarget(swerveDrivetrain,limelight),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
             new turnOffLEDs(limelight),
             new LaunchLowGoal(hopper, launcher)

@@ -30,13 +30,15 @@ public class TwoBallAuto extends SequentialCommandGroup {
             new LowerIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
-            new DriveForwards(swerveDrivetrain,40),
-            new SmartCollect(hopper, intake),
+            new DriveForwards(swerveDrivetrain,35),
+            new SmartCollect(hopper, intake).withTimeout(2),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
             new StopCollecting(hopper, intake),
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
             new RotateAmount(swerveDrivetrain, 180, -1)
+            // add rotate using limelight
+            // add high goal tarmac
             
         //turn torwards ball using rotateAmount (untested)
             //lower intake

@@ -10,9 +10,11 @@ import frc.robot.commands.HopperCommands.HopperAdvanceB;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
 import frc.robot.commands.HopperCommands.HopperBSetSpeed;
 import frc.robot.commands.HopperCommands.WaitForCargo;
+import frc.robot.commands.LauncherCommands.LauncherCombinedSpeed;
 import frc.robot.commands.LauncherCommands.LauncherGo;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
+import frc.robot.commands.LauncherHoodCommands.HoodRetract;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.launcher;
 
@@ -39,13 +41,13 @@ public class LaunchHighGoalTarmac extends SequentialCommandGroup {
     public LaunchHighGoalTarmac(hopper hopper, launcher launcher){
         //hopper = subsystem;
         //addRequirements(hopper);
-        double leadPower = 0.6;//0.65
-        double rearPower = -0.1;//-0.3
+        double leadPower = 0.80;//0.65
+        double rearPower = 0.05;//-0.3
 
         addCommands(
-            new LauncherTestBoth(launcher, leadPower, rearPower),
-            new HoodExtend(launcher),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
+            new LauncherCombinedSpeed(launcher, leadPower, rearPower),
+            new HoodRetract(launcher),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.75),
             new HopperASetPower(hopper, -0.5),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
             new HopperBSetPower(hopper, -0.5),

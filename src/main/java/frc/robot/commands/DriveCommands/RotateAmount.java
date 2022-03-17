@@ -20,7 +20,7 @@ public class RotateAmount extends CommandBase {
     desiredAngle/=360;
     desiredAngle*=2;
     desiredAngle*=Math.PI;
-    desiredAngle*=14;
+    desiredAngle*=15.75;
     direction = dir;
 
     addRequirements(drivetrain);

@@ -19,10 +19,10 @@ double Kp = 0.24;
 //rotate floor
 double min_command = 0.005;
   
-  public RotateToTarget(limelight m_lLimelight, swerveDrivetrain drivetrain) {
-    m_limelight = m_lLimelight;
-    m_drivetrain= drivetrain;
-    addRequirements(m_limelight,drivetrain);
+  public RotateToTarget(swerveDrivetrain subsystem,limelight controller) {
+    this.m_limelight = controller;
+    m_drivetrain= subsystem;
+    addRequirements(m_limelight,m_drivetrain);
     
   }
  public void initialize(){

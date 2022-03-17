@@ -12,7 +12,7 @@ import frc.robot.subsystems.launcher;
 
 public class LauncherStop extends CommandBase {
     private launcher launcher;
-    private double value;
+
   
 
     public LauncherStop(launcher subsystem) {
@@ -32,8 +32,8 @@ public class LauncherStop extends CommandBase {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        launcher.launcherLeadPercentPower(value);
-        launcher.launcherFollowPercentPower(value);
+        launcher.launcherLeadPercentPower(0);
+        launcher.launcherFollowPercentPower(0);
     }
 
  
@@ -46,7 +46,7 @@ public class LauncherStop extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;
     }
 
     @Override

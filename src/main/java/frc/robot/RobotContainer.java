@@ -27,8 +27,10 @@ import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.IntakeStop;
 import frc.robot.commands.IntakeCommands.LowerIntake;
 import frc.robot.commands.LauncherCommands.LauncherGo;
+import frc.robot.commands.LauncherCommands.LauncherLimelightLaunch;
 import frc.robot.commands.LauncherCommands.LauncherStop;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
+import frc.robot.commands.LauncherCommands.LauncherCombinedSpeed;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.commands.LauncherHoodCommands.HoodRetract;
 import frc.robot.subsystems.climber;
@@ -93,9 +95,11 @@ private final XboxController xboxController1 = new XboxController(1);
     SmartDashboard.putData("LowerIntake", new LowerIntake( m_intake ));
     SmartDashboard.putData("ReleaseArm", new ReleaseArm( m_climber ));
     SmartDashboard.putData("StopIntake", new IntakeStop( m_intake ));
-    SmartDashboard.putData("LauncherStop", new LauncherStop( m_launcher));
-    SmartDashboard.putData("SequentialCommandGroup", new SequentialCommandGroup());
     */
+    SmartDashboard.putData("LauncherStop", new LauncherGo( m_launcher,0));
+    SmartDashboard.putData("LauncherCombinedSpeed", new LauncherCombinedSpeed(m_launcher, 3000, 3000));
+    SmartDashboard.putData("LaunchHighHGoalTarmac", new LaunchHighGoalTarmac(m_hopper, m_launcher));
+    SmartDashboard.putData("SMartLaunch with Rotate and Speed from Limelight", new SmartLaunch(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
         
     // Configure the button bindings
     configureButtonBindings();
@@ -104,9 +108,9 @@ private final XboxController xboxController1 = new XboxController(1);
 
   //Used only for tuning turn off when complete!!
 
- //m_launcher.setDefaultCommand(new LauncherLeadTune(m_launcher));
+ //m_launcher.setDefaultCommand(new LauncherLimelightLaunch(m_launcher,m_limelight));
  
-  //m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
+  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
   m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
 
     // Configure autonomous sendable chooser
@@ -156,6 +160,7 @@ new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollec
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kA.value).whenPressed(new LaunchHighGoalTarmac(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
+new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new EjectBall(m_hopper, m_intake));
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
 //----resets gyro with Left Bumper ------------------------------//
 

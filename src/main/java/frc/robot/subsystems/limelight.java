@@ -77,18 +77,18 @@ private double ty,tx,ta;
 */
     @Override
     public void periodic(){
-/*
+        /*
     //read values periodically
     ty = m_limelightTable.getEntry("ty").getDouble(0.0);
     tx = m_limelightTable.getEntry("tx").getDouble(0.0);
     ta = m_limelightTable.getEntry("ta").getDouble(0.0);
     
-    
-    //post to smart dashboard periodically
-    SmartDashboard.putNumber("LimelightX", tx);
-    SmartDashboard.putNumber("LimelightY", ty);
-    SmartDashboard.putNumber("LimelightArea", ta);
     */
+    //post to smart dashboard periodically
+    SmartDashboard.putNumber("LimelightX", getState().xOffset);
+    SmartDashboard.putNumber("LimelightY",getState().yOffset);
+   // SmartDashboard.putNumber("LimelightArea", getState().);
+    
     }
     /*
     public double getx(){

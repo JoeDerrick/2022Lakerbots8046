@@ -23,6 +23,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;;
 
@@ -110,7 +111,8 @@ public class launcher extends SubsystemBase {
 	
 	@Override
 	public void periodic() {
-
+			SmartDashboard.putNumber("Lead Percent Speed", +launcherLead.getSelectedSensorVelocity()/19000);
+			SmartDashboard.putNumber("Follow Percent Speed", +launcherFollow.getSelectedSensorVelocity()/-19000);
 		// This method will be called once per scheduler run
 
 	}
@@ -137,6 +139,9 @@ public class launcher extends SubsystemBase {
 	public void launcherVelocitySet(double speed){
 		launcherLead.set(ControlMode.Velocity,speed);
 	}
+	public void launcherFollowVelocitySet(double speed){
+		launcherFollow.set(ControlMode.Velocity,speed);
+	}
 
 	public void extendPiston() {
 		hoodAngle.set(kForward);
@@ -147,6 +152,7 @@ public class launcher extends SubsystemBase {
 		hoodAngle.set(kReverse);
 		//System.out.println("method reached");
 	}
+	
 
 	 
 
