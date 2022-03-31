@@ -39,8 +39,9 @@ public class TwoBallAutoRightSide extends SequentialCommandGroup {
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
             new DriveBackwards(swerveDrivetrain, 10),
-            new RotateAmount(swerveDrivetrain, 180, 1),
+            new RotateAmount(swerveDrivetrain, 180, 1,0.5),
             new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher)
+    
             // add rotate using limelight
             // add high goal tarmac
             

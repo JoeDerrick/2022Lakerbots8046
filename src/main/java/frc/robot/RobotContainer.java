@@ -119,6 +119,7 @@ private final XboxController xboxController1 = new XboxController(1);
       m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
       m_chooser.addOption("Drive Backwards Auto", new DriveBackwards(m_swerveDrivetrain, 40));
       m_chooser.addOption("One Ball High Goal Auto", new OneBallFenderHighGoalAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      m_chooser.addOption("Three Ball Auto Right Side", new ThreeBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
     SmartDashboard.putData("Auto Mode", m_chooser);
 
 

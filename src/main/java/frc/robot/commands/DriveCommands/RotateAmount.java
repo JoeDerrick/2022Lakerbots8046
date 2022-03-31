@@ -10,9 +10,10 @@ public class RotateAmount extends CommandBase {
   private final swerveDrivetrain m_drivetrain;
   double desiredAngle;
   int direction;
+  double rotSpeed;
 
   /** Creates a new AutoDriveSwerve. */
-  public RotateAmount(swerveDrivetrain drivetrain, int des, int dir) { //dir = 1 is counter clockwise, dir = -1 is clockwise
+  public RotateAmount(swerveDrivetrain drivetrain, int des, int dir, double speed) { //dir = 1 is counter clockwise, dir = -1 is clockwise
     m_drivetrain=drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     desiredAngle = des;
@@ -22,6 +23,8 @@ public class RotateAmount extends CommandBase {
     desiredAngle*=Math.PI;
     desiredAngle*=15.75;
     direction = dir;
+
+    speed = rotSpeed;
 
     addRequirements(drivetrain);
   }
@@ -44,7 +47,7 @@ public class RotateAmount extends CommandBase {
    //add if conditional
    
     
-    final var rot = 0.5 * direction;
+    final var rot = rotSpeed * direction;
 
     m_drivetrain.drive(xSpeed, ySpeed, rot, false, false);
     System.out.println("executingROTAMOUNT");
