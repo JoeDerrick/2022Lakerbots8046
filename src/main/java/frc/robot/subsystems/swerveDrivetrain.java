@@ -5,6 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrame;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.sensors.CANCoder;
@@ -29,7 +31,7 @@ public class swerveDrivetrain extends SubsystemBase {
   //this is where you put the angle offsets you got from the smart dashboard
   //Need to be tuned!!!
 
-  public static double frontLeftOffset = 10.0;//       //module _0_
+  public static double frontLeftOffset = 7.0;//       //module _0_
   public static double frontRightOffset = 151.0;//      //module _1_
   public static double backLeftOffset = 165.0;//        //module _2_
   public static double backRightOffset = 291.0;//       //module _3_
@@ -101,7 +103,7 @@ public class swerveDrivetrain extends SubsystemBase {
    // gyro.reset(); //not sure if I commented this out or not
     
     /* create the pigeon */
-    
+   // _PigeonIMU.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 100);
     resetAllDriveEncoders();
    
   }
@@ -155,8 +157,8 @@ public class swerveDrivetrain extends SubsystemBase {
     for (int j = 0; j < states.length; j++) {
       swerveModules module = modules[j];
       SwerveModuleState state = states[j];
-     // SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());
-     // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
+     //SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());//USE THIS TO DISPLAY WHEEL ANGLE
+    // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       //below is a line to comment out from step 5
      //
       module.setDesiredState(state); ///-----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
@@ -166,9 +168,9 @@ public class swerveDrivetrain extends SubsystemBase {
      for (int i = 0; i < states.length; i++) {
       swerveModules module = modules[i];
       SwerveModuleState state = states[i];
-      SmartDashboard.putNumber(String.valueOf(i), module.getWheelPosition()/1350);
+      //SmartDashboard.putNumber(String.valueOf(i), module.getWheelPosition()/1350);
     }
-      SmartDashboard.putNumber("Average Drive EncoderValue", getAverageEncoderValue());
+     // SmartDashboard.putNumber("Average Drive EncoderValue", getAverageEncoderValue());
       
   }
   public double getAverageEncoderValue(){
@@ -209,7 +211,7 @@ public class swerveDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
+   // SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
   }
 
   @Override

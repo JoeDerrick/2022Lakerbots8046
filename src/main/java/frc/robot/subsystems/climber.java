@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utils.InstrumFX;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -25,6 +26,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import frc.robot.subsystems.climber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 public class climber extends SubsystemBase {
     //  ID=CONSTANTS
 
@@ -48,7 +50,10 @@ public climber() {
         // ID=CONSTRUCTORS
 climberLeft = new WPI_TalonFX(18);
 climberRight = new WPI_TalonFX(17);
- 
+
+climberLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 1000);
+
+climberRight.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 1000);
  
 
 armRelease = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 5);
@@ -57,11 +62,31 @@ armRelease = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 5);
 climberRight.configFactoryDefault();
 
 climberRight.configNeutralDeadband(0.001);
+climberLeft.configNeutralDeadband(0.001);
+
+climberRight.configForwardSoftLimitThreshold(500);
+climberRight.configForwardSoftLimitEnable(false
+, 50);
+
+climberLeft.configForwardSoftLimitThreshold(500);
+climberLeft.configForwardSoftLimitEnable(false, 50);
+
+climberLeft.setSelectedSensorPosition(0);
+climberRight.setSelectedSensorPosition(0);
+
+climberRight.setSensorPhase(false);
+climberLeft.setSensorPhase(true);
+
+climberLeft.setInverted(false);
+climberRight.setInverted(true);
+
 
 climberRight.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
     Constants.kPIDLoopIdx,
     Constants.kTimeoutMs);
     
+
+	
     
 /* Config the peak and nominal outputs */
 climberRight.configNominalOutputForward(0, Constants.kTimeoutMs);
@@ -77,7 +102,7 @@ climberRight.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Const
 //-----------------------------------------//
 climberLeft.configFactoryDefault();
 
-climberLeft.configNeutralDeadband(0.001);
+
 
 climberLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor,
     Constants.kPIDLoopIdx,
@@ -105,7 +130,7 @@ climberLeft.config_kD(Constants.kPIDLoopIdx, Constants.kGains_Velocit.kD, Consta
  * sensor-phase
  */
 // climberRight.setSensorPhase(true);
-climberLeft.setInverted(true);
+
 climberLeft.setNeutralMode(NeutralMode.Brake);
 climberRight.setNeutralMode(NeutralMode.Brake);
 }
@@ -114,6 +139,9 @@ climberRight.setNeutralMode(NeutralMode.Brake);
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+		SmartDashboard.putNumber("Left Climber Value", +climberLeft.getSelectedSensorPosition());
+		SmartDashboard.putNumber("Right Climber Value", +climberRight.getSelectedSensorPosition());
+		
 
     }
 
@@ -122,6 +150,16 @@ climberRight.setNeutralMode(NeutralMode.Brake);
         // This method will be called once per scheduler run when in simulation
 
     }
+
+public void disableClimberSoftLimits(){
+	climberLeft.configForwardSoftLimitEnable(false);
+	climberRight.configForwardSoftLimitEnable(false);
+}
+public void enableClimberSoftLimits(){
+	climberLeft.configForwardSoftLimitEnable(true);
+	climberRight.configForwardSoftLimitEnable(true);
+}
+
     public void climberRightTune() {
 		/* Get gamepad axis - forward stick is positive */
 		double leftYstick = -1.0 * _joy.getY(); /* left-side Y for Xbox360Gamepad */

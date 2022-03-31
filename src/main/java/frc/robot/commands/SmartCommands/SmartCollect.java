@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.HopperCommands.HopperASetBrakeMode;
+import frc.robot.commands.HopperCommands.HopperASetCoastMode;
 import frc.robot.commands.HopperCommands.HopperASetPower;
 import frc.robot.commands.HopperCommands.HopperAdvanceA;
 import frc.robot.commands.HopperCommands.WaitForCargo;
@@ -30,9 +32,14 @@ public class SmartCollect extends SequentialCommandGroup {
        
         //turn on the intake
             new LowerIntake(intake),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.5),
             new IntakeSpin(intake, -1),
             new HopperIndex(hopper, 0.25),
+            new HopperASetBrakeMode(hopper),
+            new HopperBSetPower(hopper, -0.15),//just roll that cargo up a bit
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.5),
+            new HopperASetCoastMode(hopper),
+            new HopperBSetPower(hopper, 0),
             new IntakeSpin(intake, 0),
             new RaiseIntake(intake)
         );

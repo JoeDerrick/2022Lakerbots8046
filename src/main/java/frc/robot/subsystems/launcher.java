@@ -111,8 +111,8 @@ public class launcher extends SubsystemBase {
 	
 	@Override
 	public void periodic() {
-			SmartDashboard.putNumber("Lead Percent Speed", +launcherLead.getSelectedSensorVelocity()/19000);
-			SmartDashboard.putNumber("Follow Percent Speed", +launcherFollow.getSelectedSensorVelocity()/-19000);
+			//SmartDashboard.putNumber("Lead Percent Speed", +launcherLead.getSelectedSensorVelocity()/19000);
+			//SmartDashboard.putNumber("Follow Percent Speed", +launcherFollow.getSelectedSensorVelocity()/-19000);
 		// This method will be called once per scheduler run
 
 	}

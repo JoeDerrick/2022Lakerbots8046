@@ -20,7 +20,7 @@ public class TarmacAutoExtra extends SequentialCommandGroup {
 
         addCommands(
             new LaunchHighGoalTarmac(hopper, launcher),
-            new DriveBackwards(swerveDrivetrain),
+            new DriveBackwards(swerveDrivetrain, 1),
             new Rotate180(swerveDrivetrain),
             new SmartCollect(hopper, intake),
             new Rotate180(swerveDrivetrain),

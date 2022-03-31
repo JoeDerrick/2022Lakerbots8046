@@ -30,7 +30,7 @@ public class LauncherLimelightLaunch extends CommandBase {
     private double valueLead;
     private double valueFollow;
     private double y;
-    private double thresholdForHood = 2;
+    private double thresholdForHood = -5.0;
 
         public LauncherLimelightLaunch(launcher subsystem,limelight controller){
 
@@ -57,14 +57,14 @@ public class LauncherLimelightLaunch extends CommandBase {
         //close range
         if(y>thresholdForHood){
             launcher.retractPiston();
-            valueLead = y*690.9+3040;
+            valueLead = y*690+3040;
             valueFollow = y*-863+16150;
         }
         //long range
-        else if(y<(thresholdForHood+0.2)){
+        else if(y<(thresholdForHood)){
             launcher.extendPiston();
-            valueLead = y*96.9+18331.1;
-            valueFollow = y*-193.9-563.2;
+            valueLead = y*-96+15868;// y = slope*distance+ baseline//18331
+            valueFollow = y*-193.9-562;
         }
         
 

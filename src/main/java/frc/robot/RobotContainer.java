@@ -10,13 +10,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ClimberCommands.Climb;
-import frc.robot.commands.ClimberCommands.ClimbBoth;
-import frc.robot.commands.ClimberCommands.ClimbLeft;
-import frc.robot.commands.ClimberCommands.ClimbRight;
-import frc.robot.commands.ClimberCommands.ClimbTogether;
-import frc.robot.commands.ClimberCommands.ClimbWithJoystick;
-import frc.robot.commands.ClimberCommands.ReleaseArm;
+import frc.robot.commands.ClimberCommands.*;
 import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
 import frc.robot.commands.DriveCommands.RotateToTarget;
@@ -100,7 +94,9 @@ private final XboxController xboxController1 = new XboxController(1);
     SmartDashboard.putData("LauncherCombinedSpeed", new LauncherCombinedSpeed(m_launcher, 3000, 3000));
     SmartDashboard.putData("LaunchHighHGoalTarmac", new LaunchHighGoalTarmac(m_hopper, m_launcher));
     SmartDashboard.putData("SMartLaunch with Rotate and Speed from Limelight", new SmartLaunch(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
-        
+    SmartDashboard.putData("Disable Climb Soft Limits", new ClimbDisableSoftLimits(m_climber));
+    SmartDashboard.putData(" Enable Soft Limits", new ClimbEnableSoftLimits(m_climber));
+    SmartDashboard.putData("Reset Climb Encoders", new ClimbReset(m_climber));
     // Configure the button bindings
     configureButtonBindings();
 
@@ -112,15 +108,17 @@ private final XboxController xboxController1 = new XboxController(1);
  
   m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
   m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
-
+  
     // Configure autonomous sendable chooser
     
-
-    m_chooser.setDefaultOption("Tarmac Auto", new TarmacAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake));
-    m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
-    m_chooser.addOption("Drive Backwards", new DriveBackwards(m_swerveDrivetrain));
-    m_chooser.addOption("2 Ball Auto", new TwoBallAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake));
-
+    
+    
+      m_chooser = new SendableChooser<>();
+      m_chooser.setDefaultOption("2 Ball Auto Left Side (Long Distance)", new TwoBallAutoLeftSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      m_chooser.addOption("2 Ball Auto Right Side (Short Distance)", new TwoBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
+      m_chooser.addOption("Drive Backwards Auto", new DriveBackwards(m_swerveDrivetrain, 40));
+      m_chooser.addOption("One Ball High Goal Auto", new OneBallFenderHighGoalAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
     SmartDashboard.putData("Auto Mode", m_chooser);
 
 
@@ -158,7 +156,7 @@ new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new Ho
 new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchHighGoalFender(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
-new JoystickButton(xboxController0, Button.kA.value).whenPressed(new LaunchHighGoalTarmac(m_hopper, m_launcher));
+new JoystickButton(xboxController0, Button.kA.value).whenPressed(new SmartLaunch(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
 new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new EjectBall(m_hopper, m_intake));
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
@@ -169,10 +167,14 @@ new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new Ej
 //-------------------OPERATOR CONTROLS-----------------------------//
 
 new JoystickButton(xboxController1, Button.kX.value).whenPressed(new RaiseIntake(m_intake)); 
-new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, 0.25)); //<--- maybe
+/*new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new IntakeSpin(m_intake, 0.25)); //<--- maybe
 new JoystickButton(xboxController1, Button.kB.value).whenPressed(new LowerIntake(m_intake));
 new JoystickButton(xboxController1, Button.kA.value).whenPressed(new SmartRotateToTarget(m_hopper, m_launcher, 0.3, 0.4, m_limelight, m_swerveDrivetrain));
 new JoystickButton(xboxController1, Button.kY.value).whenPressed(new turnOffLEDs(m_limelight));
+*/
+new JoystickButton(xboxController1, Button.kA.value).whenPressed(new ClimbEnableSoftLimits(m_climber));
+new JoystickButton(xboxController1, Button.kB.value).whenPressed(new ClimbDisableSoftLimits(m_climber));
+new JoystickButton(xboxController1, Button.kY.value).whenPressed(new ClimbReset(m_climber));
 //---OPerator Also controls climber with left and right y- Joysticks -----//
 
 

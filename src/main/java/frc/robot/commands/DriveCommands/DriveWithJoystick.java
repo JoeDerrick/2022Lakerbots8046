@@ -23,7 +23,8 @@ public class DriveWithJoystick extends CommandBase {
     private double currentYaw;
     private double Pyaw = 0.05; //0.05?//test commit//test
     public double speedLimit = 0.3;
-    public double rotateLimit =0.4;
+    public double rotateLimit =0.6;
+    public double boostedSpeed =  0.5;
   
   public DriveWithJoystick( swerveDrivetrain subsystem, XboxController controller) {
     //this.drivetrain = drivetrain;
@@ -38,8 +39,8 @@ public class DriveWithJoystick extends CommandBase {
     
     //add in place rotation using each trigger
     
-    SmartDashboard.putNumber("Current value from gyro", currentYaw);
-    SmartDashboard.putNumber("DriveTrain angle", swerveDrivetrain.getAngle());
+    //SmartDashboard.putNumber("Current value from gyro", currentYaw);
+    //SmartDashboard.putNumber("DriveTrain angle", swerveDrivetrain.getAngle());
     
     //System.out.println("R-trigger:" + controller.getRightTriggerAxis());
     //System.out.println("L-trigger:" + controller.getLeftTriggerAxis());
@@ -67,6 +68,9 @@ public class DriveWithJoystick extends CommandBase {
   else if(xboxController0.getLeftTriggerAxis()< 0.1 && xboxController0.getRightTriggerAxis()<0.1){
 //Never leaving "Yaw lock mode" so the robot cannot rotate.-Not sure what the trigger values are/create a deadband for them.
 //resolved 12/14/22
+//replaced the rot value with normal triggers when we changed to non field oriented drive, this section is a duplicate of
+// the section below it.
+
     final var xSpeed = 
       -xspeedLimiter.calculate(xboxController0.getLeftY())
       *swerveDrivetrain.kMaxSpeed*speedLimit;
@@ -98,6 +102,45 @@ public class DriveWithJoystick extends CommandBase {
      
 
     }
+    else if(xboxController0.getRawButtonPressed(9) == true){
+      //BOOST MODE
+
+      //Never leaving "Yaw lock mode" so the robot cannot rotate.-Not sure what the trigger values are/create a deadband for them.
+      //resolved 12/14/22
+      //replaced the rot value with normal triggers when we changed to non field oriented drive, this section is a duplicate of
+      // the section below it.
+        
+          final var xSpeed = 
+            -xspeedLimiter.calculate(xboxController0.getLeftY())
+            *swerveDrivetrain.kMaxSpeed*boostedSpeed;
+      
+          final var ySpeed = 
+            -yspeedLimiter.calculate(xboxController0.getLeftX())
+            * swerveDrivetrain.kMaxSpeed*boostedSpeed;
+            
+          //final var rot = -Pyaw*(currentYaw - swerveDrivetrain.getAngle());
+          final var rot =
+          -rotLimiter.calculate(-1*xboxController0.getLeftTriggerAxis()+xboxController0.getRightTriggerAxis())
+            * swerveDrivetrain.kMaxAngularSpeed*rotateLimit;
+      
+      
+          //SmartDashboard.putNumber("Current value from gyro", currentYaw);
+          //SmartDashboard.putNumber("DriveTrain angle", drivetrain.getAngle());
+      
+          boolean calibrate = xboxController0.getRightBumper();
+      
+          swerveDrivetrain.drive(xSpeed, ySpeed, rot, false, calibrate);
+      
+          rawOutput = Math.pow(Math.pow(xboxController0.getLeftY(),2)
+        + Math.pow(xboxController0.getLeftX(),2),0.5);
+      
+            //System.out.println(+rawOutput + "yaw lock mode");
+            
+            //System.out.println("R-trigger:" + controller.getRightTriggerAxis());
+            //System.out.println("L-trigger:" + controller.getLeftTriggerAxis());
+           
+      
+          }
   
   else{
 

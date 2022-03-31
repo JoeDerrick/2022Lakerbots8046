@@ -54,6 +54,7 @@ public class RotateAmount extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ended");
+    m_drivetrain.drive(0, 0, 0, false, false);
   }
 
   // Returns true when the command should end.

@@ -266,7 +266,7 @@ private WPI_TalonSRX hopperB;
       }
 
       public boolean getDigitalCargoSensorB(){
-        System.out.println("checking sensor");
+       // System.out.println("checking sensor");
         if (digitalCargoSensorB.get() == true){
          // System.out.println("Sensor checked true");
           return false;
@@ -304,6 +304,12 @@ private WPI_TalonSRX hopperB;
 
     }
 
+    public void HopperASetBrakeMode(){
+      hopperA.setNeutralMode(NeutralMode.Brake);
+    }
+    public void HopperASetCoastMode(){
+      hopperA.setNeutralMode(NeutralMode.Coast);
+    }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 
