@@ -32,12 +32,12 @@ public class SmartCollect extends SequentialCommandGroup {
        
         //turn on the intake
             new LowerIntake(intake),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(.5),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.75),
             new IntakeSpin(intake, -1),
             new HopperIndex(hopper, 0.25),
             new HopperASetBrakeMode(hopper),
-            new HopperBSetPower(hopper, -0.15),//just roll that cargo up a bit
-            new edu.wpi.first.wpilibj2.command.WaitCommand(.5),
+            new HopperBSetPower(hopper, -0.1),//just roll that cargo up a bit
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new HopperASetCoastMode(hopper),
             new HopperBSetPower(hopper, 0),
             new IntakeSpin(intake, 0),

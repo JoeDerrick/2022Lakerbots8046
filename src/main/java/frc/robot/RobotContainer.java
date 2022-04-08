@@ -120,7 +120,8 @@ private final XboxController xboxController1 = new XboxController(1);
       m_chooser.addOption("Drive Backwards Auto", new DriveBackwards(m_swerveDrivetrain, 40));
       m_chooser.addOption("One Ball High Goal Auto", new OneBallFenderHighGoalAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
       m_chooser.addOption("Three Ball Auto Right Side", new ThreeBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-    SmartDashboard.putData("Auto Mode", m_chooser);
+      m_chooser.addOption("One Ball With D", new OneBallFenderHighGoalAutowithD(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      SmartDashboard.putData("Auto Mode", m_chooser);
 
 
   }
@@ -157,7 +158,7 @@ new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new Ho
 new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchHighGoalFender(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
-new JoystickButton(xboxController0, Button.kA.value).whenPressed(new SmartLaunch(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
+new JoystickButton(xboxController0, Button.kA.value).whenPressed(new SmartLaunchWithReverse(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
 new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
 new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new EjectBall(m_hopper, m_intake));
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//

@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.swerveDrivetrain;
 
 
-public class DriveForwards extends CommandBase {
+public class DriveForwardsFast extends CommandBase {
   double value;
   private final swerveDrivetrain m_drivetrain;
   /** Creates a new AutoDriveSwerve. */
-  public DriveForwards(swerveDrivetrain drivetrain, double amount) {
+  public DriveForwardsFast(swerveDrivetrain drivetrain, double amount) {
     m_drivetrain=drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -29,7 +29,7 @@ public class DriveForwards extends CommandBase {
   public void execute() {
     
    
-    final var xSpeed =0.3;
+    final var xSpeed =0.6;
 
     final var ySpeed =0.0;
    

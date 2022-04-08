@@ -47,7 +47,7 @@ public class RotateAmount extends CommandBase {
    //add if conditional
    
     
-    final var rot = rotSpeed * direction;
+    final var rot = 0.8 * direction;
 
     m_drivetrain.drive(xSpeed, ySpeed, rot, false, false);
     System.out.println("executingROTAMOUNT");

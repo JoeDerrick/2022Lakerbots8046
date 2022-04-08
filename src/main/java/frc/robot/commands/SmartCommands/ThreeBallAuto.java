@@ -31,7 +31,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
 
         addCommands(// this is NOt what we need to do for a three ball please review the objective/map/path
        // new LauncherLimelightLaunch(launcher, limelight),
-        new RotateAmount(swerveDrivetrain, 180, -1),
+        new RotateAmount(swerveDrivetrain, 180, -1, 0.5),
         new LowerIntake(intake),
         new IntakeSpin(intake, -1),
         new HopperBSetPower(hopper, -0.2),

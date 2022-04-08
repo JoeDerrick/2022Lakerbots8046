@@ -64,12 +64,11 @@ climberRight.configFactoryDefault();
 climberRight.configNeutralDeadband(0.001);
 climberLeft.configNeutralDeadband(0.001);
 
-climberRight.configForwardSoftLimitThreshold(500);
-climberRight.configForwardSoftLimitEnable(false
-, 50);
+climberRight.configForwardSoftLimitThreshold(-1000);
+climberRight.configForwardSoftLimitEnable(true, 50);
 
-climberLeft.configForwardSoftLimitThreshold(500);
-climberLeft.configForwardSoftLimitEnable(false, 50);
+climberLeft.configForwardSoftLimitThreshold(-50000);
+climberLeft.configForwardSoftLimitEnable(true, 50);
 
 climberLeft.setSelectedSensorPosition(0);
 climberRight.setSelectedSensorPosition(0);

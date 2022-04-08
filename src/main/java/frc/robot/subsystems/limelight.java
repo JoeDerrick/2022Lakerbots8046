@@ -46,6 +46,7 @@ public double getLEDState(){
     return getDefault().getTable("limelight").getEntry("ledMode").getDouble(123);
 }
 
+
 public static class VisionState {
   public final double xOffset;
   public final double yOffset;

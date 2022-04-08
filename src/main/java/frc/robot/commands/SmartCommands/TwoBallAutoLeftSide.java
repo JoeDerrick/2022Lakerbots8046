@@ -19,6 +19,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.subsystems.limelight;
+import frc.robot.commands.LauncherHoodCommands.*;
 public class TwoBallAutoLeftSide extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
@@ -28,10 +29,11 @@ public class TwoBallAutoLeftSide extends SequentialCommandGroup {
 
 
         addCommands(
+            new HoodExtend(launcher),    
             new LowerIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
-            new DriveForwards(swerveDrivetrain,35),
+            new DriveForwards(swerveDrivetrain, 40),
             new SmartCollect(hopper, intake).withTimeout(1.0),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
             new StopCollecting(hopper, intake),

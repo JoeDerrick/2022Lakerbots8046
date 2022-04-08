@@ -29,11 +29,11 @@ public class DriveAndTurn extends CommandBase {
   public void execute() {
     
    
-    final var xSpeed =0.3;
+    final var xSpeed =0.20;
 
-    final var ySpeed =-.2;
+    final var ySpeed =.40;
    
-    final var rot = 0.4;
+    final var rot = 0.45;
 
     m_drivetrain.drive(xSpeed, ySpeed, rot, false, false);
     System.out.println("executing");
@@ -43,6 +43,7 @@ public class DriveAndTurn extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ended");
+    m_drivetrain.drive(0, 0, 0, false, false);
   }
 
   // Returns true when the command should end.

@@ -31,11 +31,10 @@ public class swerveDrivetrain extends SubsystemBase {
   //this is where you put the angle offsets you got from the smart dashboard
   //Need to be tuned!!!
 
-  public static double frontLeftOffset = 7.0;//       //module _0_
+  public static double frontLeftOffset = 5.0;//       //module _0_
   public static double frontRightOffset = 151.0;//      //module _1_
-  public static double backLeftOffset = 165.0;//        //module _2_
+  public static double backLeftOffset = 170.0;//        //module _2_
   public static double backRightOffset = 291.0;//       //module _3_
-
   // note errata Cancoders can't have an ID higher than 15 if they are to be used as remote sensors on talon fx
 
   //put your can Id's here!
@@ -155,15 +154,20 @@ public class swerveDrivetrain extends SubsystemBase {
 
     //-----smart Dashboard outputs ----// re-write without the fancy states thing to make it clearer
     for (int j = 0; j < states.length; j++) {
+      
       swerveModules module = modules[j];
       SwerveModuleState state = states[j];
-     //SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());//USE THIS TO DISPLAY WHEEL ANGLE
-    // SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
+     SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());//USE THIS TO DISPLAY WHEEL ANGLE
+     //SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       //below is a line to comment out from step 5
      //
       module.setDesiredState(state); ///-----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
-     // SmartDashboard.putNumber("gyro Angle", getAngle());
+      SmartDashboard.putNumber("gyro Angle", getAngle());
+     
     }
+
+
+
      //-----smart Dashboard outputs ----// re-write without the fancy states thing to make it clearer
      for (int i = 0; i < states.length; i++) {
       swerveModules module = modules[i];
@@ -178,7 +182,6 @@ public class swerveDrivetrain extends SubsystemBase {
     swerveModules module1 = modules[1];
     swerveModules module2 = modules[2];
     swerveModules module3 = modules[3];
-
     return  (((Math.abs(module0.getWheelPosition())+
               Math.abs(module1.getWheelPosition())+
               Math.abs(module2.getWheelPosition())+
@@ -212,6 +215,7 @@ public class swerveDrivetrain extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
    // SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
+   
   }
 
   @Override

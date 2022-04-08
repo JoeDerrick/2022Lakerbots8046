@@ -3,6 +3,8 @@ import edu.wpi.first.wpilibj.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.HopperCommands.HopperASetBrakeMode;
+import frc.robot.commands.HopperCommands.HopperASetCoastMode;
 import frc.robot.commands.HopperCommands.HopperASetPower;
 import frc.robot.commands.HopperCommands.HopperASetSpeed;
 import frc.robot.commands.HopperCommands.HopperAdvanceA;
@@ -43,6 +45,11 @@ public class LaunchLowGoal extends SequentialCommandGroup {
         double rearPower = -0.20;
 
         addCommands(
+            new HopperASetBrakeMode(hopper),
+            new LauncherTestBoth(launcher, -0.1, 0),
+            new HopperASetPower(hopper, 0.1),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.3),
+            new HopperASetCoastMode(hopper),
             new LauncherTestBoth(launcher, leadPower, rearPower),
             new HoodExtend(launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),

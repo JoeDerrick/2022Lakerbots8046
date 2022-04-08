@@ -6,11 +6,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.swerveDrivetrain;
 
 
-public class DriveForwards extends CommandBase {
+public class DriveForwardsForever extends CommandBase {
   double value;
   private final swerveDrivetrain m_drivetrain;
   /** Creates a new AutoDriveSwerve. */
-  public DriveForwards(swerveDrivetrain drivetrain, double amount) {
+  public DriveForwardsForever(swerveDrivetrain drivetrain, double amount) {
     m_drivetrain=drivetrain;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(drivetrain);
@@ -43,15 +43,12 @@ public class DriveForwards extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("ended");
-    m_drivetrain.drive(0, 0, 0, false, false);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      if (m_drivetrain.getAverageEncoderValue() < value){
-        return false;
-      }
+      
       return true;
 
     //return m_drivetrain.averageDistanceReached();

@@ -6,12 +6,16 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.DriveCommands.DriveAndTurn;
 import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveForwards;
+import frc.robot.commands.DriveCommands.DriveForwardsFast;
+import frc.robot.commands.DriveCommands.DriveForwardsForever;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.DriveCommands.RotateAmount;
+import frc.robot.commands.DriveCommands.RotateAmountFast;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.LowerIntake;
 import frc.robot.commands.IntakeCommands.RaiseIntake;
+import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.swerveDrivetrain;
@@ -30,28 +34,39 @@ public class ThreeBallAutoRightSide extends SequentialCommandGroup {
 
 
         addCommands(
+            new HoodExtend(launcher),
             new LowerIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
-            new DriveForwards(swerveDrivetrain,35),
-            new SmartCollect(hopper, intake).withTimeout(0.4),
+            new DriveForwards(swerveDrivetrain,50),
+            new SmartCollect(hopper, intake).withTimeout(0.75),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
             new StopCollecting(hopper, intake),
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.3),
             new DriveBackwards(swerveDrivetrain, 10),
-            new RotateAmount(swerveDrivetrain, 170, 1,0.8),
+            new RotateAmountFast(swerveDrivetrain, 175, 1, 0.8),
+            //new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
             new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
-            //new LowerIntake(intake),
-            //new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
-            //new IntakeSpin(intake, -1.0),
-            new DriveAndTurn(swerveDrivetrain, 60)
-            //new SmartCollect(hopper, intake).withTimeout(0.4),//needs to be modified to pickup just one ball
-            //new RotateAmount(swerveDrivetrain, 170, 1),
+            new RotateAmountFast(swerveDrivetrain, 75, 1, 0.8),
+            //new DriveAndTurn(swerveDrivetrain, 75),
+            new LowerIntake(intake),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
+            new IntakeSpin(intake, -1.0),
+            new DriveForwardsFast(swerveDrivetrain, 85),
+            new SmartCollect(hopper, intake).withTimeout(1),
+            new StopCollecting(hopper, intake),
+            new RotateAmountFast(swerveDrivetrain, 120, -1, 0.8),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
+            new DriveForwardsFast(swerveDrivetrain, 15),
+            new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher)
+            //needs to be modified to pickup just one ball
+            //new RotateAmount(swerveDrivetrain, 170, 1, 0.8)
             //new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
             // add rotate using limelight
             // add high goal tarmac
-            
+        
         //turn torwards ball using rotateAmount (untested)
             //lower intake
             //spin intake

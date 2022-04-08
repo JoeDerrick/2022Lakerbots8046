@@ -20,6 +20,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.commands.SmartCommands.SmartLaunch;
+import frc.robot.commands.LauncherHoodCommands.*;
 public class TwoBallAutoRightSide extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
@@ -29,6 +30,7 @@ public class TwoBallAutoRightSide extends SequentialCommandGroup {
 
 
         addCommands(
+            new HoodExtend(launcher),    
             new LowerIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),

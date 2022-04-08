@@ -310,6 +310,12 @@ private WPI_TalonSRX hopperB;
     public void HopperASetCoastMode(){
       hopperA.setNeutralMode(NeutralMode.Coast);
     }
+    public void HopperBSetBrakeMode(){
+      hopperA.setNeutralMode(NeutralMode.Brake);
+    }
+    public void HopperBSetCoastMode(){
+      hopperA.setNeutralMode(NeutralMode.Coast);
+    }
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 

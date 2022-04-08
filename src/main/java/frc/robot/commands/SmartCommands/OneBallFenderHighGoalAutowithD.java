@@ -7,6 +7,7 @@ import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveForwards;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.DriveCommands.RotateAmount;
+import frc.robot.commands.DriveCommands.RotateAmountFast;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.LowerIntake;
@@ -21,12 +22,12 @@ import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.subsystems.limelight;
 import frc.robot.commands.LimeLightCommands.*;
 import frc.robot.commands.LauncherHoodCommands.*;
-public class OneBallFenderHighGoalAuto extends SequentialCommandGroup {
+public class OneBallFenderHighGoalAutowithD extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public OneBallFenderHighGoalAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public OneBallFenderHighGoalAutowithD(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
 
 
         addCommands(
@@ -34,9 +35,20 @@ public class OneBallFenderHighGoalAuto extends SequentialCommandGroup {
             new edu.wpi.first.wpilibj2.command.WaitCommand(2),
             new DriveBackwards(swerveDrivetrain, 20),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
+            //new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
+            new LaunchLowGoal(hopper, launcher),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new DriveBackwards(swerveDrivetrain, 80)
+            new RotateAmountFast(swerveDrivetrain, 90, 1, 0.8),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
+            new LowerIntake(intake),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
+            new IntakeSpin(intake, -1.0),
+            new DriveForwards(swerveDrivetrain,80),
+            new SmartCollect(hopper, intake).withTimeout(1),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
+            new RotateAmountFast(swerveDrivetrain, 50, -1, 0.8),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
+            new LaunchLowGoal(hopper, launcher)
             // add rotate using limelight
             // add high goal tarmac
             
