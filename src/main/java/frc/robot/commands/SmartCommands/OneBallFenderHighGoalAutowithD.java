@@ -32,23 +32,29 @@ public class OneBallFenderHighGoalAutowithD extends SequentialCommandGroup {
 
         addCommands(
             new HoodRetract(launcher),    
-            new edu.wpi.first.wpilibj2.command.WaitCommand(2),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(2.0),
             new DriveBackwards(swerveDrivetrain, 20),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            //new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher),
-            new LaunchLowGoal(hopper, launcher),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new RotateAmountFast(swerveDrivetrain, 90, 1, 0.8),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new SmartLaunchWithReverse(hopper, limelight, swerveDrivetrain, launcher),
+            //new LaunchLowGoal(hopper, launcher),//CHANGE BACK TO SMART LAUNCH AFTER TESTING
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 80, 1, 0.8),
+            //new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new DriveForwards(swerveDrivetrain,30),
+            //new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 47, 1, 0.8),
+           // new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
             new LowerIntake(intake),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
             new IntakeSpin(intake, -1.0),
-            new DriveForwards(swerveDrivetrain,80),
+            new DriveForwards(swerveDrivetrain,65),
             new SmartCollect(hopper, intake).withTimeout(1),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new RotateAmountFast(swerveDrivetrain, 50, -1, 0.8),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 55, 1, 0.8),
+            new StopCollecting(hopper, intake),
+            new DriveForwards(swerveDrivetrain,10),
             new LaunchLowGoal(hopper, launcher)
+            
             // add rotate using limelight
             // add high goal tarmac
             

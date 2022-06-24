@@ -7,6 +7,7 @@ import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveForwards;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.DriveCommands.RotateAmount;
+import frc.robot.commands.DriveCommands.RotateAmountFast;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.LowerIntake;
@@ -21,22 +22,38 @@ import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.subsystems.limelight;
 import frc.robot.commands.LimeLightCommands.*;
 import frc.robot.commands.LauncherHoodCommands.*;
-public class OneBallFenderHighGoalAuto extends SequentialCommandGroup {
+public class OneBallFenderHighGoalAutowithDNoDelay extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public OneBallFenderHighGoalAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public OneBallFenderHighGoalAutowithDNoDelay(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
 
 
         addCommands(
-            new HoodExtend(launcher),    
-            new edu.wpi.first.wpilibj2.command.WaitCommand(2),
-            new DriveBackwards(swerveDrivetrain, 50),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
+            new HoodRetract(launcher),    
+            new DriveBackwards(swerveDrivetrain, 20),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
             new SmartLaunchWithReverse(hopper, limelight, swerveDrivetrain, launcher),
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
-            new DriveBackwards(swerveDrivetrain, 30)
+            //new LaunchLowGoal(hopper, launcher),//CHANGE BACK TO SMART LAUNCH AFTER TESTING
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 80, 1, 0.8),
+            //new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new DriveForwards(swerveDrivetrain,30),
+            //new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 47, 1, 0.8),
+           // new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new LowerIntake(intake),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new IntakeSpin(intake, -1.0),
+            new DriveForwards(swerveDrivetrain,65),
+            new SmartCollect(hopper, intake).withTimeout(1),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
+            new RotateAmountFast(swerveDrivetrain, 55, 1, 0.8),
+            new StopCollecting(hopper, intake),
+            new DriveForwards(swerveDrivetrain,10),
+            new LaunchLowGoal(hopper, launcher)
+            
             // add rotate using limelight
             // add high goal tarmac
             

@@ -58,6 +58,7 @@ public class RotateAmountFast extends CommandBase {
   public void end(boolean interrupted) {
     System.out.println("ended");
     m_drivetrain.drive(0, 0, 0, false, false);
+    m_drivetrain.resetAllDriveEncoders();
   }
 
   // Returns true when the command should end.

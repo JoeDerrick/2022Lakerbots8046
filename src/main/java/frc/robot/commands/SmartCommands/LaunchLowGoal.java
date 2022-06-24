@@ -42,7 +42,7 @@ public class LaunchLowGoal extends SequentialCommandGroup {
         //hopper = subsystem;
         //addRequirements(hopper);
         double leadPower = 0.40;
-        double rearPower = -0.20;
+        double rearPower = -0.10;
 
         addCommands(
             new HopperASetBrakeMode(hopper),

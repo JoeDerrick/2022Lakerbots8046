@@ -22,7 +22,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -37,7 +37,7 @@ import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class swerveDrivetrain extends SubsystemBase {
+public class swerveDrivetrainv2 extends SubsystemBase {
 
   // these are limits you can change!!!
   public static final double kMaxSpeed = Units.feetToMeters(13.6); // 20 feet per second//13.6
@@ -78,7 +78,7 @@ public class swerveDrivetrain extends SubsystemBase {
 
   public static WPI_PigeonIMU _PigeonIMU = new WPI_PigeonIMU(10);
 
-  public static final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
+  public final static SwerveDriveKinematics kinematicsv2 = new SwerveDriveKinematics(
       new Translation2d(
           Units.inchesToMeters(8.75),
           Units.inchesToMeters(8.75)),
@@ -95,7 +95,7 @@ public class swerveDrivetrain extends SubsystemBase {
   // measure the distance from the center of the robot to center of each wheel
 
   //-------------------Odometry class for tracking robot pose-----------------//
-  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kinematics, _PigeonIMU.getRotation2d());// +/-180?
+  SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(kinematicsv2, _PigeonIMU.getRotation2d());// +/-180?
 
   private final swerveModules m_frontLeft = 
     new swerveModules(
@@ -104,7 +104,7 @@ public class swerveDrivetrain extends SubsystemBase {
       new CANCoder(frontLeftCANCoderId),
       Rotation2d.fromDegrees(frontLeftOffset)
     );
-    private final swerveModules m_fronRright = 
+    private final swerveModules m_frontRight = 
     new swerveModules(
       new TalonFX(frontRightDriveId),
       new TalonFX(frontRightSteerId), 
@@ -125,7 +125,7 @@ public class swerveDrivetrain extends SubsystemBase {
       new CANCoder(frontLeftCANCoderId),
       Rotation2d.fromDegrees(backLeftOffset)
     );
-
+/*
   private swerveModules[] modules = new swerveModules[] {
 
       new swerveModules(new TalonFX(frontLeftDriveId), new TalonFX(frontLeftSteerId), new CANCoder(frontLeftCANCoderId),
@@ -138,9 +138,10 @@ public class swerveDrivetrain extends SubsystemBase {
           Rotation2d.fromDegrees(backRightOffset)) // Back Right
 
   };
+  */
   
 
-  public swerveDrivetrain() {
+  public swerveDrivetrainv2() {
 
     resetAllDriveEncoders();
 
@@ -221,31 +222,25 @@ public class swerveDrivetrain extends SubsystemBase {
       // gyro.reset(); //recalibrates gyro offset
       resetYaw();
     }
-
-    SwerveModuleState[] states = kinematics.toSwerveModuleStates(
+    var swerveModuleStates = kinematicsv2.toSwerveModuleStates(
+    
         fieldRelative // if field relative is true, do the ? line, otherwise do the : line //called a
                       // conditional operator condition ? result_if_true : result_if_false
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-getAngle()))
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, _PigeonIMU.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
 
     // using states generated above normalize using the max wheel speed.
-    SwerveDriveKinematics.desaturateWheelSpeeds(states, kMaxSpeed);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, kMaxSpeed);
 
-    // -----smart Dashboard outputs ----// re-write without the fancy states thing
-    // to make it clearer
-    for (int j = 0; j < states.length; j++) {
+      m_frontLeft.setDesiredState(swerveModuleStates[0]);
+      m_frontRight.setDesiredState(swerveModuleStates[1]);
+      m_backLeft.setDesiredState(swerveModuleStates[2]);
+      m_backRight.setDesiredState(swerveModuleStates[3]);
+      
+      /// -----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
+      // SmartDashboard.putNumber("gyro Angle", getAngle());
 
-      swerveModules module = modules[j];
-      SwerveModuleState state = states[j];
-      SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());//USE THIS
-      // TO DISPLAY WHEEL ANGLE
-      //SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
-      // below is a line to comment out from step 5
-      //
-      module.setDesiredState(state); /// -----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
-      SmartDashboard.putNumber("gyro Angle", getAngle());
-
-    }
+    
 
     // -----smart Dashboard outputs ----// re-write without the fancy states thing
     /*to make it clearer
@@ -259,15 +254,20 @@ public class swerveDrivetrain extends SubsystemBase {
     */
   }
 
+  public void setModuleStates(SwerveModuleState[] desiredStates){
+    SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    m_frontLeft.setDesiredState(desiredStates[0]);
+    m_frontRight.setDesiredState(desiredStates[1]);
+    m_backLeft.setDesiredState(desiredStates[2]);
+    m_backRight.setDesiredState(desiredStates[3]);
+  }
+
   public double getAverageEncoderValue() {
-    swerveModules module0 = modules[0];
-    swerveModules module1 = modules[1];
-    swerveModules module2 = modules[2];
-    swerveModules module3 = modules[3];
-    return (((Math.abs(module0.getWheelPosition()) +
-        Math.abs(module1.getWheelPosition()) +
-        Math.abs(module2.getWheelPosition()) +
-        Math.abs(module3.getWheelPosition())// Do the math to make this into inches
+
+    return (((Math.abs(m_frontLeft.getWheelPosition()) +
+        Math.abs(m_frontRight.getWheelPosition()) +
+        Math.abs(m_backLeft.getWheelPosition()) +
+        Math.abs(m_backRight.getWheelPosition())// Do the math to make this into inches
     ) / 4) / (1350)); // 1280 ticks per revolution (2048 ticks per rev x 6.8 Gear Ratio / 2pi x3.5
                       // inches per rev)
 
@@ -283,14 +283,11 @@ public class swerveDrivetrain extends SubsystemBase {
   }
 
   public void resetAllDriveEncoders() {
-    swerveModules module0 = modules[0];
-    swerveModules module1 = modules[1];
-    swerveModules module2 = modules[2];
-    swerveModules module3 = modules[3];
-    module0.resetDriveEncoder();
-    module1.resetDriveEncoder();
-    module2.resetDriveEncoder();
-    module3.resetDriveEncoder();
+   
+    m_frontLeft.resetDriveEncoder();
+    m_frontRight.resetDriveEncoder();
+    m_backLeft.resetDriveEncoder();
+    m_backRight.resetDriveEncoder();
   }
 
 
@@ -298,13 +295,13 @@ public class swerveDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    //SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
+   // SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
     m_odometry.update(
       _PigeonIMU.getRotation2d(),
-      modules[0].getState(),
-      modules[1].getState(),
-      modules[2].getState(),
-      modules[3].getState());
+      m_frontLeft.getState(),
+      m_frontRight.getState(),
+      m_backLeft.getState(),
+      m_backRight.getState());
   }
 
   @Override

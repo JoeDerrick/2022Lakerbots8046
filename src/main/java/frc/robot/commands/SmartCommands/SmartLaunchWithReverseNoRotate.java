@@ -15,27 +15,32 @@ import frc.robot.commands.LauncherCommands.LauncherGo;
 import frc.robot.commands.LauncherCommands.LauncherLimelightLaunch;
 import frc.robot.commands.LauncherCommands.LauncherTestBoth;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
+import frc.robot.commands.HopperCommands.*;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.swerveDrivetrain;
 
-public class SmartLaunch extends SequentialCommandGroup {
+public class SmartLaunchWithReverseNoRotate extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public SmartLaunch(hopper hopper, limelight m_limelight,swerveDrivetrain drivetrain,launcher launcher){
+    public SmartLaunchWithReverseNoRotate(hopper hopper, limelight m_limelight,launcher launcher){
         
         addCommands(
+            new HopperBSetBrakeMode(hopper),
+            new LauncherTestBoth(launcher, -0.1, 0),
+            new HopperASetPower(hopper, 0.1),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(0.15),
+            new HopperASetPower(hopper, 0),
+            new HopperBSetCoastMode(hopper),
             new LauncherTestBoth(launcher, 0.5, 0.3),//warm up the launcher
-            new RotateToTarget( drivetrain,m_limelight), //rotate to target
             new LauncherLimelightLaunch(launcher, m_limelight).withTimeout(1),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.5),
             new HopperASetPower(hopper, -0.5),
             new HopperBSetPower(hopper, -0.5),
-            
-            new edu.wpi.first.wpilibj2.command.WaitCommand(0.75),    
+            new edu.wpi.first.wpilibj2.command.WaitCommand(1),    
             new LauncherGo(launcher, 0),
             new HopperASetPower(hopper, 0),
             new HopperBSetPower(hopper, 0)

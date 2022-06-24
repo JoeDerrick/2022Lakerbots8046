@@ -40,7 +40,7 @@ public class TwoBallAutoLeftSide extends SequentialCommandGroup {
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
             new RotateAmount(swerveDrivetrain, 180, -1,0.5),
-            new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher)
+            new SmartLaunchWithReverse(hopper, limelight, swerveDrivetrain, launcher)
             // add rotate using limelight
             // add high goal tarmac
             

@@ -34,15 +34,15 @@ public class TwoBallAutoRightSide extends SequentialCommandGroup {
             new LowerIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
-            new DriveForwards(swerveDrivetrain,35),
+            new DriveForwards(swerveDrivetrain, 35),
             new SmartCollect(hopper, intake).withTimeout(0.4),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
             new StopCollecting(hopper, intake),
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
-            new DriveBackwards(swerveDrivetrain, 10),
+            new DriveBackwards(swerveDrivetrain, 5),
             new RotateAmount(swerveDrivetrain, 180, 1,0.5),
-            new SmartLaunch(hopper, limelight, swerveDrivetrain, launcher)
+            new SmartLaunchWithReverse(hopper, limelight, swerveDrivetrain, launcher)
     
             // add rotate using limelight
             // add high goal tarmac

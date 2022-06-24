@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Utils.InstrumFX;
 
@@ -34,7 +35,8 @@ public class climber extends SubsystemBase {
     // ID=DECLARATIONS
 private WPI_TalonFX climberLeft;
 private WPI_TalonFX climberRight;
-private DoubleSolenoid armRelease;
+private DoubleSolenoid highBarClimber;
+private DoubleSolenoid highBarHook;
 
 Joystick _joy = new Joystick(1);  
 
@@ -56,8 +58,11 @@ climberLeft.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 1000);
 climberRight.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 1000);
  
 
-armRelease = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 5);
- addChild("armRelease", armRelease);
+highBarClimber = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 4, 5);
+ addChild("armRelease", highBarClimber);
+
+ highBarHook = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 6, 7);
+ addChild("armRelease", highBarHook);
  
 climberRight.configFactoryDefault();
 
@@ -338,7 +343,22 @@ public void enableClimberSoftLimits(){
       }
       public double getClimberLeftposition(){
         return climberLeft.getSelectedSensorPosition();
-      }
+    }
+	
 
+
+	public void highBarClimberExtend() {
+		highBarClimber.set(Value.kReverse);
+	}
+	public void highBarClimberRetract() {
+		highBarClimber.set(Value.kForward);
+	}
+
+    public void highBarHookExtend() {
+		highBarHook.set(Value.kForward);
+    }
+
+	public void highBarHookRetract() {
+		highBarHook.set(Value.kReverse);
+    }
 }
-

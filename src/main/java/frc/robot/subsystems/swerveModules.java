@@ -111,6 +111,10 @@ public void setDesiredState(SwerveModuleState desiredState) {
     //below is a line to comment out from step 5
     driveMotor.set(TalonFXControlMode.PercentOutput, feetPerSecond / swerveDrivetrain.kMaxSpeed);
   }
+////-----yeah i just made this up-------/
+  public SwerveModuleState getState() {
+    return new SwerveModuleState(driveMotor.getSelectedSensorVelocity(), new Rotation2d(canCoder.getPosition()));
+  }
 
 }
 
