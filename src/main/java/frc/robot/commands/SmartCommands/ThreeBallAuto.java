@@ -21,12 +21,13 @@ import frc.robot.subsystems.intake;
 import frc.robot.commands.*;
 import frc.robot.commands.LimeLightCommands.*;
 import frc.robot.commands.SmartCommands.DriveAndCollect;
+import frc.robot.subsystems.climber;
 public class ThreeBallAuto extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public ThreeBallAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public ThreeBallAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight, climber climber){
 
 
         addCommands(// this is NOt what we need to do for a three ball please review the objective/map/path
@@ -36,7 +37,7 @@ public class ThreeBallAuto extends SequentialCommandGroup {
         new IntakeSpin(intake, -1),
         new HopperBSetPower(hopper, -0.2),
         new DriveForwards(swerveDrivetrain, 29),
-        new SmartCollect(hopper, intake)
+        new SmartCollect(hopper, intake, climber)
         //new RotateAmount(swerveDrivetrain, 120, -1),
         //new IntakeSpin(intake, -1),
         //new HopperBSetPower(hopper, -0.2),

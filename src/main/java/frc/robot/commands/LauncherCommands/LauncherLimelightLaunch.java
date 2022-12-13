@@ -57,14 +57,14 @@ public class LauncherLimelightLaunch extends CommandBase {
         //close range
         if(y>thresholdForHood){
             launcher.retractPiston();
-            valueLead = y*690+3040;
-            valueFollow = y*-863+16150;
+            valueLead = y*594+11044;
+            valueFollow = y*-742+6145;
         }
         //long range
         else if(y<(thresholdForHood)){
             launcher.extendPiston();
-            valueLead = y*-193+14637;// y = slope*distance+ baseline//18331
-            valueFollow = y*-193.9-562;
+            valueLead = y*-211+11526;//y*-193+14637;// y = slope*distance+ baseline//18331
+            valueFollow = y*-211-3673;
         }
         
 

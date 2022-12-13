@@ -296,6 +296,7 @@ public class swerveDrivetrainv2 extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
    // SmartDashboard.putNumber("Updated Encoder Val", getAverageEncoderValue());
+   System.out.println("test");
     m_odometry.update(
       _PigeonIMU.getRotation2d(),
       m_frontLeft.getState(),

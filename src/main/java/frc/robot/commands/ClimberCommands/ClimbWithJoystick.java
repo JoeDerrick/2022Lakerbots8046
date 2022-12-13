@@ -28,7 +28,7 @@ public class ClimbWithJoystick extends CommandBase {
         private final climber m_climber;
         private double value;
         private final XboxController xBoxController1;
-        private final double deadband = 0.2;
+        private final double deadband = 0.4;
  
   
 
@@ -50,6 +50,9 @@ public class ClimbWithJoystick extends CommandBase {
     @Override
     public void execute() {
         //System.out.println("left Y: " + xBoxController1.getLeftY() + " right Y: " + xBoxController1.getRightY());
+        
+        
+        
         if(Math.abs(xBoxController1.getLeftY()) < deadband){
             m_climber.climberLeftSetPower(0);
         }
@@ -63,6 +66,11 @@ public class ClimbWithJoystick extends CommandBase {
         else if(Math.abs(xBoxController1.getRightY()) > deadband){
             m_climber.climberRightSetPower(xBoxController1.getRightY()*1.0);
         }
+
+
+       
+        m_climber.climberLeftSetPower(xBoxController1.getLeftY()*1.0);
+        m_climber.climberRightSetPower(xBoxController1.getRightY()*1.0);
 
     }
 

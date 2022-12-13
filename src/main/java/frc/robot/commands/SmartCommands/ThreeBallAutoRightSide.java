@@ -25,12 +25,13 @@ import frc.robot.commands.*;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.commands.SmartCommands.SmartLaunch;
+import frc.robot.subsystems.climber;
 public class ThreeBallAutoRightSide extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public ThreeBallAutoRightSide(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public ThreeBallAutoRightSide(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight, climber climber){
 
 
         addCommands(
@@ -39,9 +40,9 @@ public class ThreeBallAutoRightSide extends SequentialCommandGroup {
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
             new DriveForwards(swerveDrivetrain,50),
-            new SmartCollect(hopper, intake).withTimeout(0.75),
+            new SmartCollect(hopper, intake, climber).withTimeout(0.75),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
-            new StopCollecting(hopper, intake),
+            new StopCollecting(hopper, intake, climber),
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.3),
@@ -55,8 +56,8 @@ public class ThreeBallAutoRightSide extends SequentialCommandGroup {
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
             new DriveForwardsFast(swerveDrivetrain, 85),
-            new SmartCollect(hopper, intake).withTimeout(1),
-            new StopCollecting(hopper, intake),
+            new SmartCollect(hopper, intake, climber).withTimeout(1),
+            new StopCollecting(hopper, intake, climber),
             new RotateAmountFast(swerveDrivetrain, 120, -1, 0.8),
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new DriveForwardsFast(swerveDrivetrain, 15),

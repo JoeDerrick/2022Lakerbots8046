@@ -31,7 +31,7 @@ public class OneBallFenderHighGoalAuto extends SequentialCommandGroup {
 
         addCommands(
             new HoodExtend(launcher),    
-            new edu.wpi.first.wpilibj2.command.WaitCommand(2),
+            new edu.wpi.first.wpilibj2.command.WaitCommand(8),
             new DriveBackwards(swerveDrivetrain, 50),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.25),
             new SmartLaunchWithReverse(hopper, limelight, swerveDrivetrain, launcher),

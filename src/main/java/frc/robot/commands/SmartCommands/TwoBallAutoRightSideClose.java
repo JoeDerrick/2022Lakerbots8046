@@ -16,6 +16,7 @@ import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.swerveDrivetrain;
 import frc.robot.subsystems.intake;
 import frc.robot.subsystems.limelight;
+import frc.robot.subsystems.climber;
 import frc.robot.commands.*;
 import frc.robot.commands.DriveCommands.Rotate180;
 import frc.robot.commands.SmartCommands.DriveAndCollect;
@@ -26,7 +27,7 @@ public class TwoBallAutoRightSideClose extends SequentialCommandGroup {
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public TwoBallAutoRightSideClose(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public TwoBallAutoRightSideClose(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight, climber climber){
 
 
         addCommands(
@@ -35,9 +36,9 @@ public class TwoBallAutoRightSideClose extends SequentialCommandGroup {
             new edu.wpi.first.wpilibj2.command.WaitCommand(.25),
             new IntakeSpin(intake, -1.0),
             new DriveForwards(swerveDrivetrain, 35),
-            new SmartCollect(hopper, intake).withTimeout(0.4),
+            new SmartCollect(hopper, intake,climber).withTimeout(0.4),
             //new DriveAndCollect(hopper, launcher, swerveDrivetrain, intake),
-            new StopCollecting(hopper, intake),
+            new StopCollecting(hopper, intake, climber),
             new HopperBSetPower(hopper, 0),
             new RaiseIntake(intake),
             new DriveBackwards(swerveDrivetrain, 30),

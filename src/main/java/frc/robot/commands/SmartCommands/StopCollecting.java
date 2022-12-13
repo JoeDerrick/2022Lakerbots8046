@@ -7,22 +7,25 @@ import frc.robot.subsystems.intake;
 import frc.robot.commands.IntakeCommands.IntakeSpin;
 import frc.robot.commands.IntakeCommands.RaiseIntake;
 import frc.robot.commands.HopperCommands.HopperBSetPower;
-
+import frc.robot.commands.ClimberCommands.highBar.HighBarHookExtend;
+import frc.robot.commands.ClimberCommands.highBar.HighBarHookRetract;
+import frc.robot.subsystems.*;
 
 public class StopCollecting extends SequentialCommandGroup {
     
   
 
-    public StopCollecting(hopper hopper, intake intake){
+    public StopCollecting(hopper hopper, intake intake, climber climber){
    
     
         addCommands(
        
         //turn on the intake
-            new IntakeSpin(intake, 0),
+            new IntakeSpin(intake, 0),//possibly add highbar hook retract???
             new RaiseIntake(intake),
             new HopperASetPower(hopper, 0),
-            new HopperBSetPower(hopper, 0)
+            new HopperBSetPower(hopper, 0),
+            new HighBarHookExtend(climber)
         );
     }
 

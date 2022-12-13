@@ -239,12 +239,14 @@ public class swerveDrivetrain extends SubsystemBase {
       SwerveModuleState state = states[j];
       SmartDashboard.putNumber(String.valueOf(j), module.getRawAngle());//USE THIS
       // TO DISPLAY WHEEL ANGLE
-      //SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
+      SmartDashboard.putNumber(String.valueOf(j), module.getWheelPosition());
       // below is a line to comment out from step 5
       //
-      module.setDesiredState(state); /// -----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
+     System.out.println("test");
+     module.setDesiredState(state); /// -----COMMENT THIS OUT/IN FOR SWERVE MODULE ANGLE CONFIGURATION--------//
       SmartDashboard.putNumber("gyro Angle", getAngle());
 
+      
     }
 
     // -----smart Dashboard outputs ----// re-write without the fancy states thing

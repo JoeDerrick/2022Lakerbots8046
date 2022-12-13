@@ -22,12 +22,13 @@ import frc.robot.commands.SmartCommands.DriveAndCollect;
 import frc.robot.subsystems.limelight;
 import frc.robot.commands.LimeLightCommands.*;
 import frc.robot.commands.LauncherHoodCommands.*;
+import frc.robot.subsystems.climber;
 public class OneBallFenderHighGoalAutowithDNoDelay extends SequentialCommandGroup {
     
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public OneBallFenderHighGoalAutowithDNoDelay(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight){
+    public OneBallFenderHighGoalAutowithDNoDelay(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, limelight limelight, climber climber){
 
 
         addCommands(
@@ -47,10 +48,10 @@ public class OneBallFenderHighGoalAutowithDNoDelay extends SequentialCommandGrou
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
             new IntakeSpin(intake, -1.0),
             new DriveForwards(swerveDrivetrain,65),
-            new SmartCollect(hopper, intake).withTimeout(1),
+            new SmartCollect(hopper, intake, climber).withTimeout(1),
             new edu.wpi.first.wpilibj2.command.WaitCommand(0.1),
             new RotateAmountFast(swerveDrivetrain, 55, 1, 0.8),
-            new StopCollecting(hopper, intake),
+            new StopCollecting(hopper, intake, climber),
             new DriveForwards(swerveDrivetrain,10),
             new LaunchLowGoal(hopper, launcher)
             

@@ -5,6 +5,7 @@ import frc.robot.commands.SmartCommands.LaunchHighGoalTarmac;
 import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.launcher;
+import frc.robot.subsystems.climber;
 import frc.robot.subsystems.swerveDrivetrain;
 import frc.robot.subsystems.intake;
 import frc.robot.commands.*;
@@ -15,14 +16,14 @@ public class TarmacAutoExtra extends SequentialCommandGroup {
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public TarmacAutoExtra(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake){
+    public TarmacAutoExtra(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake,climber climber){
 
 
         addCommands(
             new LaunchHighGoalTarmac(hopper, launcher),
             new DriveBackwards(swerveDrivetrain, 1),
             new Rotate180(swerveDrivetrain),
-            new SmartCollect(hopper, intake),
+            new SmartCollect(hopper, intake,climber),
             new Rotate180(swerveDrivetrain),
             new LaunchHighGoalTarmac(hopper, launcher)
         );

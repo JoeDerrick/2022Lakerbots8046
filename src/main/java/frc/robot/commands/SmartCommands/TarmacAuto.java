@@ -7,6 +7,7 @@ import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.swerveDrivetrain;
 import frc.robot.subsystems.intake;
 import frc.robot.commands.*;
+import frc.robot.subsystems.climber;
 import frc.robot.commands.DriveCommands.Rotate180;
 
 public class TarmacAuto extends SequentialCommandGroup {
@@ -14,14 +15,14 @@ public class TarmacAuto extends SequentialCommandGroup {
    // CommandGroupBase.addCommands(SequentialCommandGroup);
     
 
-    public TarmacAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake){
+    public TarmacAuto(hopper hopper, launcher launcher, swerveDrivetrain swerveDrivetrain, intake intake, climber climber){
 
 
         addCommands(
             new LaunchHighGoalTarmac(hopper, launcher),
             new DriveBackwards(swerveDrivetrain, 1),
             new Rotate180(swerveDrivetrain),
-            new SmartCollect(hopper, intake)
+            new SmartCollect(hopper, intake, climber)
         );
     }
 

@@ -65,7 +65,7 @@ public class HighBarHookRetract extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true;//YOU FOUND IT THIS IS ALSO THE SAME ERROR
     }
 
     @Override

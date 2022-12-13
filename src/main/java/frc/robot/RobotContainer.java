@@ -7,10 +7,11 @@ import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandGroupBase;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.ClimberCommands.*;
+import frc.robot.commands.ClimberCommands.ClimbDisableSoftLimits;
+import frc.robot.commands.ClimberCommands.ClimbEnableSoftLimits;
+import frc.robot.commands.ClimberCommands.ClimbReset;
+import frc.robot.commands.ClimberCommands.ClimbWithJoystick;
 import frc.robot.commands.ClimberCommands.highBar.HighBarClimberExtend;
 import frc.robot.commands.ClimberCommands.highBar.HighBarClimberRetract;
 import frc.robot.commands.ClimberCommands.highBar.HighBarHookExtend;
@@ -18,20 +19,26 @@ import frc.robot.commands.ClimberCommands.highBar.HighBarHookRetract;
 import frc.robot.commands.DriveCommands.DriveBackwards;
 import frc.robot.commands.DriveCommands.DriveWithJoystick;
 import frc.robot.commands.DriveCommands.DriveWithJoystickFieldOriented;
-import frc.robot.commands.DriveCommands.RotateToTarget;
-import frc.robot.commands.HopperCommands.HopperASetPower;
-import frc.robot.commands.HopperCommands.HopperTune;
-import frc.robot.commands.HopperCommands.WaitForCargo;
-import frc.robot.commands.IntakeCommands.IntakeSpin;
-import frc.robot.commands.IntakeCommands.IntakeStop;
-import frc.robot.commands.IntakeCommands.LowerIntake;
-import frc.robot.commands.LauncherCommands.LauncherGo;
-import frc.robot.commands.LauncherCommands.LauncherLimelightLaunch;
-import frc.robot.commands.LauncherCommands.LauncherStop;
-import frc.robot.commands.LauncherCommands.LauncherTestBoth;
+import frc.robot.commands.IntakeCommands.RaiseIntake;
 import frc.robot.commands.LauncherCommands.LauncherCombinedSpeed;
+import frc.robot.commands.LauncherCommands.LauncherGo;
 import frc.robot.commands.LauncherHoodCommands.HoodExtend;
 import frc.robot.commands.LauncherHoodCommands.HoodRetract;
+import frc.robot.commands.SmartCommands.EjectBall;
+import frc.robot.commands.SmartCommands.LaunchHighGoalFender;
+import frc.robot.commands.SmartCommands.LaunchHighGoalTarmac;
+import frc.robot.commands.SmartCommands.LaunchLowGoal;
+import frc.robot.commands.SmartCommands.OneBallFenderHighGoalAuto;
+import frc.robot.commands.SmartCommands.OneBallFenderHighGoalAutowithD;
+import frc.robot.commands.SmartCommands.OneBallFenderHighGoalAutowithDNoDelay;
+import frc.robot.commands.SmartCommands.SmartCollect;
+import frc.robot.commands.SmartCommands.SmartLaunch;
+import frc.robot.commands.SmartCommands.SmartLaunchWithReverse;
+import frc.robot.commands.SmartCommands.StopCollecting;
+import frc.robot.commands.SmartCommands.ThreeBallAutoRightSide;
+import frc.robot.commands.SmartCommands.TwoBallAutoLeftSide;
+import frc.robot.commands.SmartCommands.TwoBallAutoRightSide;
+import frc.robot.commands.SmartCommands.TwoBallAutoRightSideClose;
 import frc.robot.subsystems.climber;
 import frc.robot.subsystems.hopper;
 import frc.robot.subsystems.intake;
@@ -39,11 +46,6 @@ import frc.robot.subsystems.launcher;
 import frc.robot.subsystems.limelight;
 import frc.robot.subsystems.pneumatics;
 import frc.robot.subsystems.swerveDrivetrain;
-import frc.robot.commands.IntakeCommands.RaiseIntake;
-import frc.robot.commands.HopperCommands.HopperBSetPower;
-import frc.robot.commands.LimeLightCommands.*;
-import frc.robot.commands.DriveCommands.RotateToTarget;
-import frc.robot.commands.SmartCommands.*;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -85,11 +87,12 @@ private final XboxController xboxController1 = new XboxController(1);
 
 
     // SmartDashboard Buttons
-    /*
-    SmartDashboard.putData("Autonomous Command", new AutoDrive(m_swerveDrivetrain));
+    
+    /*SmartDashboard.putData("Autonomous Command", new AutoDrive(m_swerveDrivetrain));
     SmartDashboard.putData("SpinIntake", new IntakeSpin( m_intake, 0.5 ));
-    SmartDashboard.putData("LaunchBall", new LauncherGo( m_launcher, 0.5 ));
-    SmartDashboard.putData("Climb", new Climb( m_climber ));
+    */
+    SmartDashboard.putData("LaunchBall", new LaunchLowGoal(m_hopper, m_launcher));
+    /*SmartDashboard.putData("Climb", new Climb( m_climber ));
     SmartDashboard.putData("ChangeHoodAngle", new HoodExtend( m_launcher ));
     SmartDashboard.putData("LowerIntake", new LowerIntake( m_intake ));
     SmartDashboard.putData("ReleaseArm", new ReleaseArm( m_climber ));
@@ -106,6 +109,10 @@ private final XboxController xboxController1 = new XboxController(1);
     SmartDashboard.putData("Hook retract", new HighBarHookRetract(m_climber));
     SmartDashboard.putData("High Bar Extend", new HighBarClimberExtend(m_climber));
     SmartDashboard.putData("High Bar Retract", new HighBarClimberRetract(m_climber));
+    SmartDashboard.putData("Hood Retract", new HoodRetract(m_launcher));
+    SmartDashboard.putData("Hood Extend", new HoodExtend(m_launcher));
+    SmartDashboard.putData("Swag Flag DEPLOY!", new HighBarHookExtend(m_climber));
+    SmartDashboard.putData("Swag Flag RETRETE!", new HighBarHookRetract(m_climber));
     // Configure the button bindings
     configureButtonBindings();
 
@@ -113,25 +120,25 @@ private final XboxController xboxController1 = new XboxController(1);
 
   //Used only for tuning turn off when complete!!
 
- //m_launcher.setDefaultCommand(new LauncherLimelightLaunch(m_launcher,m_limelight));
+    //m_launcher.setDefaultCommand(new LauncherLimelightLaunch(m_launcher,m_limelight));
  
-  m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
-  m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
+    m_swerveDrivetrain.setDefaultCommand(new DriveWithJoystick(m_swerveDrivetrain, xboxController0));
+    m_climber.setDefaultCommand(new ClimbWithJoystick(m_climber, xboxController1));
   
     // Configure autonomous sendable chooser
     
     
     
       m_chooser = new SendableChooser<>();
-      m_chooser.setDefaultOption("2 Ball Auto Left Side (Long Distance)", new TwoBallAutoLeftSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-      m_chooser.addOption("2 Ball Auto Right Side (Short Distance)", new TwoBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      m_chooser.setDefaultOption("2 Ball Auto Left Side (Long Distance)", new TwoBallAutoLeftSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
+      m_chooser.addOption("2 Ball Auto Right Side (Short Distance)", new TwoBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
       m_chooser.addOption("Low Goal Auto", new LaunchLowGoal(m_hopper, m_launcher));
       m_chooser.addOption("Drive Backwards Auto", new DriveBackwards(m_swerveDrivetrain, 40));
       m_chooser.addOption("One Ball High Goal Auto", new OneBallFenderHighGoalAuto(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-      m_chooser.addOption("Three Ball Auto Right Side", new ThreeBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-      m_chooser.addOption("One Ball With D", new OneBallFenderHighGoalAutowithD(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-      m_chooser.addOption("One Ball With D, NO DELAY", new OneBallFenderHighGoalAutowithDNoDelay(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
-      m_chooser.addOption("2 Ball Right Side Drive Close", new TwoBallAutoRightSideClose(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight));
+      m_chooser.addOption("Three Ball Auto Right Side", new ThreeBallAutoRightSide(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
+      m_chooser.addOption("One Ball With D", new OneBallFenderHighGoalAutowithD(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
+      m_chooser.addOption("One Ball With D, NO DELAY", new OneBallFenderHighGoalAutowithDNoDelay(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
+      m_chooser.addOption("2 Ball Right Side Drive Close", new TwoBallAutoRightSideClose(m_hopper, m_launcher, m_swerveDrivetrain, m_intake, m_limelight,m_climber));
       SmartDashboard.putData("Auto Mode", m_chooser);
 
 
@@ -167,11 +174,11 @@ new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new Ho
 //----------------DRIVER CONTROLS-----------------------------//
 
 new JoystickButton(xboxController0, Button.kY.value).whenPressed(new LaunchHighGoalFender(m_hopper, m_launcher));
-new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake));
+new JoystickButton(xboxController0, Button.kX.value).whenPressed(new SmartCollect(m_hopper, m_intake, m_climber));
 new JoystickButton(xboxController0, Button.kB.value).whenPressed(new LaunchLowGoal(m_hopper, m_launcher));
 new JoystickButton(xboxController0, Button.kA.value).whenPressed(new SmartLaunchWithReverse(m_hopper, m_limelight, m_swerveDrivetrain, m_launcher));
-new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake));
-new JoystickButton(xboxController0, Button.kLeftBumper.value).whenPressed(new EjectBall(m_hopper, m_intake));
+new JoystickButton(xboxController0, Button.kRightBumper.value).whenPressed(new StopCollecting(m_hopper, m_intake, m_climber));
+new JoystickButton(xboxController0, Button.kLeftStick.value).whenPressed(new EjectBall(m_hopper, m_intake, m_climber));
 //---Driver also controls drivetrain with left x&y joysticks and twist with triggers ----//
 //----resets gyro with Left Bumper ------------------------------//
 
@@ -189,7 +196,7 @@ new JoystickButton(xboxController1, Button.kA.value).whenPressed(new ClimbEnable
 new JoystickButton(xboxController1, Button.kB.value).whenPressed(new ClimbDisableSoftLimits(m_climber));
 new JoystickButton(xboxController1, Button.kY.value).whenPressed(new ClimbReset(m_climber));
 
-new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new HighBarClimberExtend(m_climber));
+new JoystickButton(xboxController1, Button.kRightBumper.value).whenPressed(new EjectBall(m_hopper, m_intake,m_climber).withTimeout(0.75));
 new JoystickButton(xboxController1, Button.kLeftBumper.value).whenPressed(new HighBarClimberRetract(m_climber));
 
 //---OPerator Also controls climber with left and right y- Joysticks -----//

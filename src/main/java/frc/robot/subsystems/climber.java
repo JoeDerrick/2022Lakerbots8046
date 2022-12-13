@@ -355,10 +355,10 @@ public void enableClimberSoftLimits(){
 	}
 
     public void highBarHookExtend() {
-		highBarHook.set(Value.kForward);
+		highBarHook.set(Value.kReverse);
     }
 
 	public void highBarHookRetract() {
-		highBarHook.set(Value.kReverse);
+		highBarHook.set(Value.kForward);
     }
 }

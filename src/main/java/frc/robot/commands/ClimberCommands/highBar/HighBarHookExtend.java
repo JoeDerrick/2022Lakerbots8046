@@ -65,7 +65,7 @@ public class HighBarHookExtend extends CommandBase {
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        return false;
+        return true; //YOU FOUND THE ERROR! this needs to be true in order for the command to finish and start the next sequence of the command group
     }
 
     @Override
